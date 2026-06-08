@@ -1,0 +1,1665 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SilatPro - Cempaka Putih Kaltim</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#f7f6f2;--card:#fff;--border:#e5e3db;--text:#1a1a18;--muted:#6b6b66;--red:#cc0000;--blue:#185FA5;--green:#3B6D11;--yellow:#BA7517;--rad:10px;--rs:6px}
+body{font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;background:var(--bg);color:var(--text);font-size:14px;min-height:100vh}
+#login-screen{min-height:100vh;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#8b0000}
+#login-screen::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 30% 20%,#cc0000 0%,transparent 60%),radial-gradient(ellipse at 70% 80%,#7a0000 0%,transparent 60%),linear-gradient(135deg,#6b0000,#cc0000,#8b0000);z-index:0}
+#login-screen::after{content:'';position:absolute;inset:0;background-image:radial-gradient(circle at 20% 50%,rgba(245,200,0,.08) 0%,transparent 50%),radial-gradient(circle at 80% 20%,rgba(255,255,255,.05) 0%,transparent 40%);z-index:0}
+.login-deco{position:absolute;border-radius:50%;z-index:0}
+.lbox{background:rgba(255,255,255,.97);backdrop-filter:blur(20px);border-radius:24px;padding:32px 26px 24px;width:360px;max-width:95vw;box-shadow:0 24px 80px rgba(0,0,0,.35),0 0 0 1px rgba(255,255,255,.2);position:relative;z-index:1}
+.lhdr{display:flex;flex-direction:column;align-items:center;gap:0;margin-bottom:22px;text-align:center}
+.logo-ring{width:100px;height:100px;border-radius:50%;background:linear-gradient(135deg,#cc0000,#f5c800,#cc0000);padding:3px;margin-bottom:14px;box-shadow:0 8px 32px rgba(204,0,0,.4)}
+.logo-ring-inner{width:100%;height:100%;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.llogo{width:88px;height:88px;object-fit:contain}
+.lbrand{font-size:17px;font-weight:800;color:#cc0000;letter-spacing:.01em;line-height:1.2}
+.lsub{font-size:12px;color:#6b6b66;margin-top:3px;font-weight:500}
+.ldiv{width:60px;height:3px;background:linear-gradient(90deg,#cc0000,#f5c800);border-radius:2px;margin:14px auto 18px}
+.role-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.role-btn{border:2px solid #f0ede8;border-radius:10px;padding:12px 8px;text-align:center;cursor:pointer;background:#fafaf9;transition:.2s;position:relative;overflow:hidden}
+.role-btn::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,#cc0000,#990000);opacity:0;transition:.2s}
+.role-btn:hover{border-color:#cc0000;transform:translateY(-1px);box-shadow:0 4px 12px rgba(204,0,0,.15)}
+.role-btn.sel{border-color:#cc0000;background:#fff5f5;box-shadow:0 4px 16px rgba(204,0,0,.2)}
+.role-btn i{display:block;font-size:24px;color:#cc0000;margin-bottom:5px;position:relative;z-index:1}
+.role-lbl{font-size:12px;font-weight:700;position:relative;z-index:1}
+.role-desc{font-size:10px;color:#6b6b66;margin-top:2px;position:relative;z-index:1}
+.inp{width:100%;padding:10px 13px;border:1.5px solid #e8e4de;border-radius:8px;background:#fafaf9;color:#1a1a18;font-size:13px;margin-bottom:10px;outline:none;transition:.2s}
+.inp:focus{border-color:#cc0000;background:#fff;box-shadow:0 0 0 3px rgba(204,0,0,.1)}
+.btn-login{width:100%;padding:13px;background:linear-gradient(135deg,#cc0000,#990000);border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.03em;box-shadow:0 4px 16px rgba(204,0,0,.4);transition:.2s;position:relative;overflow:hidden}
+.btn-login::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.15),transparent);transition:.4s}
+.btn-login:hover::before{left:100%}
+.btn-login:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(204,0,0,.5)}
+.btn-login:active{transform:translateY(0)}
+.wm{text-align:center;font-size:10px;color:#9b9b96;padding:14px 0 0;display:flex;align-items:center;justify-content:center;gap:5px}
+.wm img{width:16px;height:16px;object-fit:contain;border-radius:50%}
+#app{display:none;min-height:100vh;flex-direction:column}
+.topbar{padding:0 13px;display:flex;align-items:center;justify-content:space-between;height:52px;position:sticky;top:0;z-index:100}
+.top-admin{background:#1a1a18}.top-juri{background:#185FA5}.top-dewan{background:#3B6D11}.top-ketua{background:#cc0000}
+.tl{display:flex;align-items:center;gap:9px}
+.tlogo{width:34px;height:34px;object-fit:contain;border-radius:50%;background:#fff;padding:2px}
+.tn{font-size:13px;font-weight:700;color:#fff;line-height:1.2}
+.ts{font-size:10px;color:rgba(255,255,255,.7)}
+.tr{display:flex;align-items:center;gap:7px}
+.rbadge{font-size:10px;padding:3px 10px;border-radius:20px;font-weight:700;background:rgba(255,255,255,.2);color:#fff}
+.lout{border:none;background:rgba(255,255,255,.15);cursor:pointer;color:#fff;font-size:17px;padding:5px 7px;border-radius:6px}
+.subbanner{background:#1a1a18;padding:7px 13px;display:flex;align-items:center;justify-content:space-between}
+.sb-name{font-size:12px;font-weight:700;color:#fff}
+.sb-det{font-size:10px;color:rgba(255,255,255,.55)}
+.sb-btn{font-size:11px;color:#f5c800;background:none;border:none;cursor:pointer;font-weight:700}
+.bnav{background:#fff;border-top:.5px solid #e5e3db;display:flex;position:sticky;bottom:0;z-index:100}
+.ni{flex:1;display:flex;flex-direction:column;align-items:center;padding:7px 4px 5px;cursor:pointer;border:none;background:transparent;color:#6b6b66;font-size:10px;gap:2px}
+.ni i{font-size:20px}
+.ni span{font-weight:500}
+.ni.act-admin{color:#1a1a18}.ni.act-juri{color:#185FA5}.ni.act-dewan{color:#3B6D11}.ni.act-ketua{color:#cc0000}
+.content{flex:1;padding:12px;overflow-y:auto}
+.sec{display:none}.sec.active{display:block}
+.card{background:#fff;border:.5px solid #e5e3db;border-radius:10px;padding:13px;margin-bottom:11px}
+.ch{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.ct{font-size:11px;font-weight:700;color:#6b6b66;text-transform:uppercase;letter-spacing:.06em}
+.srow{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:11px}
+.sc{background:#f7f6f2;border-radius:6px;padding:11px}
+.sv{font-size:22px;font-weight:700}
+.sl{font-size:11px;color:#6b6b66;margin-top:2px}
+.badge{font-size:10px;padding:3px 8px;border-radius:20px;font-weight:600;display:inline-flex;align-items:center;gap:3px}
+.b-live{background:#FAECE7;color:#993C1D}.b-done{background:#EAF3DE;color:#3B6D11}.b-soon{background:#E6F1FB;color:#185FA5}.b-warn{background:#FAEEDA;color:#BA7517}
+.fg{margin-bottom:10px}
+.fl{font-size:10px;font-weight:700;color:#6b6b66;margin-bottom:3px;display:block;text-transform:uppercase;letter-spacing:.05em}
+.fi{width:100%;padding:8px 11px;border:.5px solid #e5e3db;border-radius:6px;background:#fff;color:#1a1a18;font-size:13px;outline:none}
+.fi:focus{border-color:#cc0000}
+.fsel{width:100%;padding:8px 11px;border:.5px solid #e5e3db;border-radius:6px;background:#fff;color:#1a1a18;font-size:13px;outline:none}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.btn{padding:8px 14px;border-radius:6px;border:.5px solid #e5e3db;background:#fff;cursor:pointer;font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:5px}
+.btn-r{background:#cc0000;color:#fff;border-color:#cc0000}.btn-r:hover{background:#990000}
+.btn-b{background:#185FA5;color:#fff;border-color:#185FA5}
+.btn-g{background:#3B6D11;color:#fff;border-color:#3B6D11}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{padding:7px 8px;text-align:left;border-bottom:.5px solid #e5e3db;color:#6b6b66;font-weight:700;font-size:10px;text-transform:uppercase}
+.tbl td{padding:8px;border-bottom:.5px solid #e5e3db;vertical-align:middle}
+.tbl tr:last-child td{border-bottom:none}
+.mi{display:flex;align-items:center;gap:8px;padding:9px 0;border-bottom:.5px solid #e5e3db}
+.mi:last-child{border-bottom:none}
+.mn{flex:1;font-size:13px}
+.gel-tag{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:600;background:#E6F1FB;color:#185FA5}
+.bscroll{overflow-x:auto;padding-bottom:8px}
+.bracket{display:flex;gap:26px;padding:8px 0;min-width:fit-content}
+.bround{display:flex;flex-direction:column;min-width:145px}
+.rl{font-size:10px;font-weight:700;color:#6b6b66;text-align:center;margin-bottom:9px;text-transform:uppercase;letter-spacing:.06em}
+.bm{background:#fff;border:.5px solid #e5e3db;border-radius:6px;margin-bottom:11px;overflow:hidden}
+.bp{padding:7px 10px;font-size:12px;display:flex;justify-content:space-between;border-bottom:.5px solid #e5e3db}
+.bp:last-child{border-bottom:none}
+.bp.win{background:#EAF3DE;font-weight:700}
+.bpts{font-weight:700;color:#cc0000}
+.scoreboard{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;margin-bottom:11px}
+.sb-side{background:#fff;border:.5px solid #e5e3db;border-radius:10px;padding:12px;text-align:center}
+.sb-color{font-size:10px;font-weight:700;letter-spacing:.08em;margin-bottom:3px}
+.sb-nm{font-size:13px;font-weight:700;margin-bottom:1px}
+.sb-ktg{font-size:11px;color:#6b6b66;margin-bottom:8px}
+.sb-score{font-size:44px;font-weight:800;line-height:1;margin-bottom:6px}
+.sb-huk{font-size:10px;color:#6b6b66}
+.sb-vs{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:0 4px}
+.sb-vs-txt{font-size:16px;font-weight:800;color:#6b6b66}
+.tdisp{font-size:28px;font-weight:800;font-variant-numeric:tabular-nums;transition:.2s}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-6px)}40%{transform:translateX(6px)}60%{transform:translateX(-4px)}80%{transform:translateX(4px)}}
+.shake{animation:shake .4s ease}
+.locked-overlay{background:#f7f6f2;border:2px dashed #e5e3db;border-radius:10px;padding:16px;text-align:center;color:#aaa;font-size:12px;font-weight:600;margin-bottom:11px}
+.lock-icon{font-size:28px;margin-bottom:6px}
+.timer-running .locked-overlay{display:none}
+.tstat{font-size:10px;color:#6b6b66;text-align:center}
+.cbtn{padding:6px 10px;border-radius:6px;border:.5px solid #e5e3db;background:#fff;cursor:pointer;font-size:12px;font-weight:600;width:100%;margin-top:4px;display:flex;align-items:center;justify-content:center;gap:4px}
+.rsel{display:flex;gap:5px}
+.rbtn{padding:4px 11px;border-radius:20px;border:.5px solid #e5e3db;font-size:11px;background:#fff;cursor:pointer;font-weight:600}
+.rbtn.active{background:#cc0000;color:#fff;border-color:#cc0000}
+.juri-panel{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:11px}
+.juri-side{border-radius:10px;padding:14px;text-align:center}
+.js-biru{background:#E6F1FB;border:2px solid #185FA5}
+.js-merah{background:#fff5f5;border:2px solid #cc0000}
+.js-lbl{font-size:11px;font-weight:700;letter-spacing:.08em;margin-bottom:4px}
+.js-nm{font-size:13px;font-weight:700;margin-bottom:10px}
+.jabtn{width:100%;padding:18px 8px;border-radius:10px;border:none;cursor:pointer;font-size:15px;font-weight:800;margin-bottom:9px;display:flex;align-items:center;justify-content:center;gap:8px;transition:.15s;box-shadow:0 4px 12px rgba(0,0,0,.15);letter-spacing:.02em}
+.jabtn:active{transform:scale(.93);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.jab-pb{background:linear-gradient(135deg,#185FA5,#1565c0);color:#fff}
+.jab-tb{background:linear-gradient(135deg,#1976d2,#0d47a1);color:#fff}
+.jab-pm{background:linear-gradient(135deg,#cc0000,#990000);color:#fff}
+.jab-tm{background:linear-gradient(135deg,#e53935,#b71c1c);color:#fff}
+.jabtn i{font-size:22px}
+.jabtn .pts-badge{background:rgba(255,255,255,.25);border-radius:20px;padding:2px 8px;font-size:12px;font-weight:700}
+.dsec{background:#fff;border:.5px solid #e5e3db;border-radius:10px;padding:13px;margin-bottom:10px}
+.dsec-t{font-size:12px;font-weight:700;color:#6b6b66;text-transform:uppercase;letter-spacing:.05em;margin-bottom:10px;padding-bottom:7px;border-bottom:.5px solid #e5e3db}
+.dbtns{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.dbtn{padding:16px 8px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:800;text-align:center;transition:.15s;box-shadow:0 4px 12px rgba(0,0,0,.15)}
+.dbtn:active{transform:scale(.93)}
+.dbtn-jb{background:linear-gradient(135deg,#185FA5,#0d47a1);color:#fff}
+.dbtn-jm{background:linear-gradient(135deg,#cc0000,#8b0000);color:#fff}
+.hbtn{width:100%;padding:13px 14px;border-radius:10px;border:none;cursor:pointer;font-size:13px;font-weight:700;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;transition:.15s;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.hbtn:active{transform:scale(.97)}
+.h-p1{background:#f0f0f0;color:#555}.h-p2{background:#e8e8e8;color:#555}
+.h-w1{background:#FAEEDA;color:#BA7517}.h-w2{background:#f5d9a0;color:#8a5700}
+.h-t1{background:#FAECE7;color:#993C1D}.h-t2{background:#cc0000;color:#fff}
+.htgt{display:flex;gap:6px;margin-bottom:8px}
+.htgt-btn{flex:1;padding:7px;border-radius:6px;border:1.5px solid #e5e3db;background:#fff;cursor:pointer;font-size:12px;font-weight:700;text-align:center}
+.htgt-btn.sel-b{border-color:#185FA5;background:#E6F1FB;color:#185FA5}
+.htgt-btn.sel-r{border-color:#cc0000;background:#fff5f5;color:#cc0000}
+.logbox{background:#f7f6f2;border-radius:6px;padding:9px;max-height:160px;overflow-y:auto;font-size:11px}
+.loge{padding:4px 0;border-bottom:.5px solid #e5e3db;display:flex;align-items:center;gap:6px;color:#6b6b66}
+.loge:last-child{border-bottom:none}
+.logt{font-weight:700;color:#1a1a18;font-variant-numeric:tabular-nums;min-width:36px;font-size:10px}
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.5);display:none;align-items:center;justify-content:center;z-index:999}
+.mo.open{display:flex}
+.mb{background:#fff;border-radius:16px;padding:22px;width:330px;max-width:93vw;max-height:88vh;overflow-y:auto}
+.mt{font-size:16px;font-weight:700;margin-bottom:14px}
+.mc{float:right;background:none;border:none;font-size:22px;cursor:pointer;color:#6b6b66;line-height:1}
+.mode-toggle{display:flex;gap:8px;margin-bottom:10px}
+.mode-btn{flex:1;padding:8px;border-radius:6px;border:1.5px solid #e5e3db;background:#fff;cursor:pointer;font-size:11px;font-weight:700;text-align:center}
+.mode-btn.active{border-color:#cc0000;background:#fff5f5;color:#cc0000}
+.tcard{background:#fff;border:.5px solid #e5e3db;border-radius:10px;padding:12px;margin-bottom:9px;display:flex;align-items:center;gap:10px}
+.tcard.active-t{border-color:#cc0000;background:#fff5f5}
+.tcard-icon{width:36px;height:36px;background:#cc0000;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-size:18px;flex-shrink:0}
+.tcard-info{flex:1;cursor:pointer}
+.tcard-nm{font-size:13px;font-weight:700}
+.tcard-det{font-size:11px;color:#6b6b66;margin-top:2px}
+.tcard-act{display:flex;gap:5px}
+.bchart{display:flex;align-items:flex-end;gap:4px;height:72px;margin-top:8px}
+.bcol{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.bbar{border-radius:3px 3px 0 0;width:100%;min-height:4px}
+.bval{font-size:9px;color:#6b6b66}
+.blbl{font-size:8px;color:#6b6b66;text-align:center;line-height:1.2}
+#toast{position:fixed;bottom:66px;left:50%;transform:translateX(-50%) translateY(12px);background:#1a1a18;color:#fff;padding:9px 18px;border-radius:20px;font-size:12px;opacity:0;transition:.25s;z-index:9999;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+</style>
+<script src="/socket.io/socket.io.js"></script>
+</head>
+<body>
+<div id="toast"></div>
+
+<div id="login-screen">
+<div class="login-deco" style="width:300px;height:300px;top:-80px;left:-80px;background:radial-gradient(circle,rgba(245,200,0,.15),transparent);border:1px solid rgba(245,200,0,.1)"></div>
+<div class="login-deco" style="width:200px;height:200px;bottom:-40px;right:-40px;background:radial-gradient(circle,rgba(255,255,255,.08),transparent);border:1px solid rgba(255,255,255,.05)"></div>
+<div class="login-deco" style="width:120px;height:120px;top:40%;left:5%;background:radial-gradient(circle,rgba(245,200,0,.1),transparent)"></div>
+<div class="lbox">
+  <div class="lhdr">
+    <div class="logo-ring"><div class="logo-ring-inner"><img class="llogo" id="logo1" alt="Logo"></div></div>
+    <div class="lbrand">Pencak Silat Cempaka Putih</div>
+    <div class="lsub">PENGDA Kalimantan Timur</div>
+    <div class="ldiv"></div>
+  </div>
+  <p style="font-size:11px;color:#888;margin-bottom:9px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;text-align:center">Masuk sebagai</p>
+  <div class="role-grid">
+    <div class="role-btn sel" onclick="selRole(this,'admin')"><i class="ti ti-shield-check"></i><div class="role-lbl">Admin</div><div class="role-desc">Kelola turnamen dan peserta</div></div>
+    <div class="role-btn" onclick="selRole(this,'ketua')"><i class="ti ti-whistle"></i><div class="role-lbl">Ketua / Wasit</div><div class="role-desc">Pimpin pertandingan</div></div>
+    <div class="role-btn" onclick="selRole(this,'juri')"><i class="ti ti-hand-stop"></i><div class="role-lbl">Juri</div><div class="role-desc">Input pukulan dan tendangan</div></div>
+    <div class="role-btn" onclick="selRole(this,'dewan')"><i class="ti ti-gavel"></i><div class="role-lbl">Dewan</div><div class="role-desc">Input jatuhan dan hukuman</div></div>
+  </div>
+  <input class="inp" type="text" id="l-user" placeholder="Masukkan nama lengkap Anda" value="">
+  <div style="position:relative">
+    <input class="inp" type="password" id="l-pass" placeholder="Kata sandi" style="margin-bottom:4px">
+    <div id="pass-hint" style="font-size:11px;color:#cc0000;margin-bottom:10px;min-height:16px;font-weight:600;text-align:center"></div>
+  </div>
+  <button class="btn-login" onclick="doLogin()">&#x2192; Masuk ke Sistem</button>
+  <div class="wm"><img id="logo2" alt=""> Pencak Silat Cempaka Putih &copy; PENGDA Kalimantan Timur</div>
+</div>
+</div>
+
+<div id="app" style="display:none;flex-direction:column;min-height:100vh">
+  <div class="topbar top-admin" id="topbar">
+    <div class="tl"><img class="tlogo" id="logo3" alt=""><div><div class="tn">Cempaka Putih</div><div class="ts" id="topbar-role"></div></div></div>
+    <div style="display:flex;align-items:center;gap:6px">
+      <span id="conn-status" style="font-size:10px;padding:2px 8px;border-radius:20px;font-weight:700;background:#EAF3DE;color:#3B6D11">Konek...</span>
+      <span id="users-count" style="font-size:10px;color:rgba(255,255,255,.6)">0 online</span>
+    </div>
+    <div class="tr">
+      <span class="rbadge" id="role-badge"></span>
+      <button class="lout" style="font-size:12px;padding:5px 9px;font-weight:600" onclick="gantiPeran()" title="Ganti Peran" id="btn-ganti-peran"><i class="ti ti-switch-horizontal"></i></button>
+      <button class="lout" onclick="doLogout()" title="Keluar"><i class="ti ti-logout"></i></button>
+    </div>
+  </div>
+  <div class="subbanner">
+    <div><div class="sb-name" id="sb-name">Belum ada turnamen aktif</div><div class="sb-det" id="sb-det">Buat atau pilih turnamen</div></div>
+    <button class="sb-btn" id="sb-btn" onclick="showSec('turnamen')">Kelola &rsaquo;</button>
+  </div>
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="sec active" id="sec-dashboard">
+      <div id="no-t" class="card" style="text-align:center;padding:24px">
+        <div style="font-size:32px;margin-bottom:10px">&#127942;</div>
+        <div style="font-weight:700;margin-bottom:6px">Belum ada turnamen aktif</div>
+        <div style="font-size:12px;color:#6b6b66;margin-bottom:14px">Buat turnamen baru untuk mulai</div>
+        <button class="btn btn-r" onclick="showSec('turnamen')">Buat Turnamen</button>
+      </div>
+      <div id="dash-ok" style="display:none">
+        <div class="srow">
+          <div class="sc"><div class="sv" id="d-p">0</div><div class="sl">Peserta</div></div>
+          <div class="sc"><div class="sv" id="d-l">0</div><div class="sl">Laga</div></div>
+          <div class="sc"><div class="sv" id="d-k">0</div><div class="sl">Kategori</div></div>
+          <div class="sc"><div class="sv" id="d-kt">0</div><div class="sl">Kontingen</div></div>
+        </div>
+        <div class="card"><div class="ch"><span class="ct">Peserta per Kategori</span></div><div class="bchart" id="bchart"></div></div>
+        <div class="card"><div class="ch"><span class="ct">Jadwal Laga</span></div><div id="laga-dash"></div></div>
+      </div>
+    </div>
+
+    <!-- TURNAMEN -->
+    <div class="sec" id="sec-turnamen">
+      <div class="card">
+        <div class="ch"><span class="ct">Buat Turnamen Baru</span></div>
+        <div class="fg"><label class="fl">Nama Turnamen *</label><input class="fi" id="t-nama" placeholder="Kejuaraan Daerah Kaltim 2025" type="text"></div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Tanggal Mulai</label><input class="fi" id="t-tgl1" type="date"></div>
+          <div class="fg"><label class="fl">Tanggal Selesai</label><input class="fi" id="t-tgl2" type="date"></div>
+        </div>
+        <div class="fg"><label class="fl">Lokasi</label><input class="fi" id="t-lokasi" placeholder="GOR Segiri Samarinda" type="text"></div>
+        <button class="btn btn-r" style="width:100%" onclick="buatTurnamen()">+ Buat Turnamen</button>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Daftar Turnamen (<span id="t-count">0</span>)</span></div>
+        <div id="t-list"><div style="color:#6b6b66;font-size:12px">Belum ada turnamen.</div></div>
+      </div>
+    </div>
+
+    <!-- PESERTA -->
+    <div class="sec" id="sec-registrasi">
+      <div class="card">
+        <div class="ch"><span class="ct">Daftar Peserta Baru</span></div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Nama *</label><input class="fi" id="r-nama" placeholder="Nama pesilat" type="text"></div>
+          <div class="fg"><label class="fl">Kontingen *</label><input class="fi" id="r-daerah" placeholder="Kab/Kota" type="text"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Kategori</label>
+            <select class="fsel" id="r-kat">
+              <option>Tanding Putra</option><option>Tanding Putri</option>
+              <option>Seni Tunggal Putra</option><option>Seni Tunggal Putri</option>
+              <option>Seni Ganda</option><option>Seni Beregu</option>
+            </select>
+          </div>
+          <div class="fg"><label class="fl">Kelas</label>
+            <select class="fsel" id="r-kelas">
+              <option value="A">A (45-50kg)</option><option value="B">B (50-55kg)</option>
+              <option value="C">C (55-60kg)</option><option value="D" selected>D (60-65kg)</option>
+              <option value="E">E (65-70kg)</option><option value="F">F (70-75kg)</option>
+            </select>
+          </div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Tgl Lahir</label><input class="fi" id="r-tgl" type="date"></div>
+          <div class="fg"><label class="fl">No. Undian</label><input class="fi" id="r-undian" placeholder="Auto jika kosong"></div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-r" onclick="daftarPeserta()" style="flex:1">+ Daftarkan</button>
+          <button class="btn" onclick="resetForm()">Reset</button>
+        </div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Peserta (<span id="p-count">0</span>)</span>
+          <div style="display:flex;gap:6px;align-items:center">
+            <input class="fi" style="width:100px;padding:5px 8px;font-size:12px" placeholder="Cari..." oninput="cariPeserta(this.value)">
+            <button class="btn btn-r" style="font-size:11px;padding:6px 10px;white-space:nowrap" onclick="cetakKartu()">Cetak Kartu</button>
+          </div>
+        </div>
+        <table class="tbl"><thead><tr><th>No</th><th>Nama</th><th>Daerah</th><th>Kelas</th><th>Status</th></tr></thead>
+        <tbody id="p-tbody"></tbody></table>
+      </div>
+    </div>
+
+    <!-- LAGA -->
+    <div class="sec" id="sec-laga">
+      <div class="card">
+        <div class="ch"><span class="ct">Tambah Laga</span></div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Gelanggang</label><select class="fsel" id="laga-gel"><option>Gelanggang A</option><option>Gelanggang B</option><option>Gelanggang C</option></select></div>
+          <div class="fg"><label class="fl">Kategori</label><select class="fsel" id="laga-kat"><option>Kelas D Putra</option><option>Kelas C Putri</option><option>Kelas E Putra</option><option>Kelas B Putri</option></select></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Sudut Biru *</label><input class="fi" id="lg-biru" placeholder="Nama pesilat biru"></div>
+          <div class="fg"><label class="fl">Sudut Merah *</label><input class="fi" id="lg-merah" placeholder="Nama pesilat merah"></div>
+        </div>
+        <div class="frow">
+          <div class="fg"><label class="fl">Kontingen Biru</label><input class="fi" id="lg-bktg" placeholder="Daerah"></div>
+          <div class="fg"><label class="fl">Kontingen Merah</label><input class="fi" id="lg-mktg" placeholder="Daerah"></div>
+        </div>
+        <div class="fg"><label class="fl">Waktu</label><input class="fi" id="lg-waktu" type="time" value="08:00"></div>
+        <button class="btn btn-r" style="width:100%" onclick="tambahLaga()">+ Tambah Laga</button>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Daftar Laga (<span id="laga-count">0</span>)</span>
+          <button class="btn" style="font-size:11px;color:#cc0000" onclick="resetLaga()">Reset Semua</button>
+        </div>
+        <div id="laga-tbl"><div style="color:#6b6b66;font-size:12px">Belum ada laga.</div></div>
+      </div>
+    </div>
+
+    <!-- BRACKET -->
+    <div class="sec" id="sec-bracket">
+      <div class="card">
+        <div class="ch"><span class="ct">Bracket</span>
+          <select class="fsel" style="width:auto;font-size:12px;padding:5px 8px" id="bkt-kat" onchange="renderBracket()">
+            <option value="D Putra">Kelas D Putra</option><option value="C Putri">Kelas C Putri</option><option value="E Putra">Kelas E Putra</option>
+          </select>
+        </div>
+        <div style="display:flex;gap:8px;margin-bottom:12px">
+          <button class="btn btn-r" onclick="genBracket()" style="flex:1">Generate dari Peserta</button>
+          <button class="btn btn-b" onclick="lagaDariBracket()" style="flex:1">Buat Laga dari Bracket</button>
+        </div>
+        <div class="bscroll"><div class="bracket" id="bracket-area"></div></div>
+      </div>
+    </div>
+
+    <!-- KETUA TIMER -->
+    <div class="sec" id="sec-ketua-timer">
+      <div class="card" style="text-align:center;padding:20px 16px">
+        <div style="font-size:11px;font-weight:700;color:#6b6b66;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px">PERTANDINGAN AKTIF</div>
+        <div id="kt-no-laga" style="background:#fff5f5;border:1.5px solid #cc0000;border-radius:10px;padding:14px;margin-bottom:16px;text-align:center;display:block">
+          <div style="font-size:20px;margin-bottom:6px">&#x26A0;&#xFE0F;</div>
+          <div style="font-weight:700;color:#cc0000;font-size:13px;margin-bottom:4px">Belum ada laga aktif</div>
+          <div style="font-size:11px;color:#6b6b66">Buka menu <b>Laga</b>, pilih pertandingan, lalu klik <b>Mulai</b></div>
+        </div>
+        <div id="kt-laga-wrap" style="display:none">
+          <div style="font-size:15px;font-weight:700;margin-bottom:2px" id="kt-laga-nm">-</div>
+          <div style="font-size:12px;color:#6b6b66;margin-bottom:20px" id="kt-laga-info">-</div>
+        </div>
+        <div style="display:flex;justify-content:space-around;margin-bottom:20px">
+          <div style="text-align:center">
+            <div style="font-size:11px;color:#6b6b66;margin-bottom:4px;font-weight:600">SUDUT BIRU</div>
+            <div style="font-size:14px;font-weight:700;color:#185FA5" id="kt-blue-nm">-</div>
+            <div style="font-size:40px;font-weight:900;color:#185FA5;line-height:1" id="kt-blue-score">0</div>
+          </div>
+          <div style="display:flex;align-items:center;color:#ccc;font-size:20px;font-weight:700">VS</div>
+          <div style="text-align:center">
+            <div style="font-size:11px;color:#6b6b66;margin-bottom:4px;font-weight:600">SUDUT MERAH</div>
+            <div style="font-size:14px;font-weight:700;color:#cc0000" id="kt-red-nm">-</div>
+            <div style="font-size:40px;font-weight:900;color:#cc0000;line-height:1" id="kt-red-score">0</div>
+          </div>
+        </div>
+        <!-- BIG TIMER -->
+        <div style="background:linear-gradient(135deg,#1a0000,#2d0000);border-radius:20px;padding:28px 20px;margin-bottom:20px;box-shadow:0 8px 32px rgba(0,0,0,.3)">
+          <div style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:8px;letter-spacing:.1em">WAKTU BABAK</div>
+          <div style="font-size:72px;font-weight:900;color:#fff;font-variant-numeric:tabular-nums;line-height:1;text-shadow:0 0 30px rgba(255,100,100,.5)" id="kt-timer">02:00</div>
+          <div style="font-size:13px;color:rgba(255,255,255,.5);margin-top:8px" id="kt-tstat">Siap</div>
+        </div>
+        <!-- BABAK SELECTOR -->
+        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px">
+          <div style="font-size:11px;color:#6b6b66;font-weight:700;display:flex;align-items:center;margin-right:4px">BABAK:</div>
+          <button class="rbtn active" id="kt-r1" onclick="ketuaSetRound(1,this)">1</button>
+          <button class="rbtn" id="kt-r2" onclick="ketuaSetRound(2,this)">2</button>
+          <button class="rbtn" id="kt-r3" onclick="ketuaSetRound(3,this)">3</button>
+        </div>
+        <!-- TIMER CONTROLS -->
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px">
+          <button onclick="ketuaStart()" id="kt-start-btn" style="padding:16px;background:linear-gradient(135deg,#3B6D11,#2d5209);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(59,109,17,.4)">
+            <i class="ti ti-player-play" style="display:block;font-size:24px;margin-bottom:4px"></i>START
+          </button>
+          <button onclick="ketuaStop()" style="padding:16px;background:linear-gradient(135deg,#cc0000,#8b0000);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(204,0,0,.4)">
+            <i class="ti ti-player-pause" style="display:block;font-size:24px;margin-bottom:4px"></i>STOP
+          </button>
+          <button onclick="ketuaReset()" style="padding:16px;background:linear-gradient(135deg,#555,#333);border:none;border-radius:12px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;box-shadow:0 4px 12px rgba(0,0,0,.3)">
+            <i class="ti ti-refresh" style="display:block;font-size:24px;margin-bottom:4px"></i>RESET
+          </button>
+        </div>
+      </div>
+      <!-- AKHIRI BABAK & PRINT -->
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-r" onclick="akhirBabak()" style="flex:1;padding:12px"><i class="ti ti-flag-check"></i> Akhiri Babak</button>
+        <button class="btn btn-b" onclick="exportPDF()" style="flex:1;padding:12px"><i class="ti ti-file-type-pdf"></i> Print Poin</button>
+        <button class="btn" onclick="bukaScoreboard()" style="flex:1;padding:12px"><i class="ti ti-tv"></i> Layar</button>
+      </div>
+    </div>
+
+    <!-- KETUA MONITOR -->
+    <div class="sec" id="sec-ketua-monitor">
+      <div class="card">
+        <div class="ch"><span class="ct">Data Pertandingan Berjalan</span></div>
+        <div id="kt-monitor-laga" style="font-size:12px;color:#6b6b66;padding:4px 0">Belum ada laga aktif.</div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Log Poin Real-time</span>
+          <button class="btn btn-b" onclick="exportPDF()" style="font-size:11px;padding:5px 10px"><i class="ti ti-file-type-pdf"></i> Print</button>
+        </div>
+        <div class="logbox" id="kt-log-box"><div style="color:#6b6b66;font-size:11px">Belum ada poin.</div></div>
+      </div>
+      <div class="card">
+        <div class="ch"><span class="ct">Rekap Babak</span></div>
+        <div id="kt-rekap-box"><div style="color:#6b6b66;font-size:12px">Belum ada babak selesai.</div></div>
+      </div>
+    </div>
+
+    <!-- SCORING -->
+    <div class="sec" id="sec-scoring">    <!-- SCORING -->
+    <div class="sec" id="sec-scoring">
+      <div id="score-setup" class="card" style="padding:10px;display:none">
+        <div class="frow" style="margin-bottom:8px">
+          <div>
+            <div style="font-size:10px;color:#6b6b66;margin-bottom:2px;font-weight:700">PILIH LAGA</div>
+            <select class="fsel" style="padding:6px 8px;font-size:12px" id="score-laga-sel" onchange="pilihLaga()"><option value="">-- Pilih Laga --</option></select>
+          </div>
+          <div>
+            <div style="font-size:10px;color:#6b6b66;margin-bottom:4px;font-weight:700">BABAK</div>
+            <div class="rsel">
+              <button class="rbtn active" onclick="setRound(1,this)">1</button>
+              <button class="rbtn" onclick="setRound(2,this)">2</button>
+              <button class="rbtn" onclick="setRound(3,this)">3</button>
+            </div>
+          </div>
+        </div>
+        <div id="mode-wrap">
+          <div style="font-size:10px;color:#6b6b66;margin-bottom:5px;font-weight:700">MODE SCORING</div>
+          <div class="mode-toggle">
+            <div class="mode-btn active" onclick="setMode('single',this)">Single (1 Perangkat)</div>
+            <div class="mode-btn" onclick="setMode('multi',this)">Multi Juri (3 Perangkat)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="padding:10px;margin-bottom:11px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-size:12px;font-weight:700;margin-bottom:4px" id="score-laga-nm">Pilih laga untuk mulai</div>
+          <div style="font-size:11px;color:#6b6b66" id="score-laga-info"></div>
+        </div>
+        <button class="btn" style="font-size:11px;padding:6px 10px;white-space:nowrap;flex-shrink:0" onclick="bukaScoreboard()">&#x26F3; Scoreboard</button>
+      </div>
+
+      <div class="scoreboard">
+        <div class="sb-side">
+          <div class="sb-color" style="color:#185FA5">SUDUT BIRU</div>
+          <div class="sb-nm" id="sc-bnm">-</div>
+          <div class="sb-ktg" id="sc-bktg">-</div>
+          <div class="sb-score" style="color:#185FA5" id="sc-b">0</div>
+          <div class="sb-huk" id="sc-bhuk">-</div>
+        </div>
+        <div class="sb-vs">
+          <div class="sb-vs-txt">VS</div>
+          <div class="tdisp" id="score-timer">02:00</div>
+          <div class="tstat" id="tstat">Siap</div>
+          <div id="timer-ctrl" style="display:none;margin-top:6px;width:70px">
+            <button class="cbtn" id="timer-btn" onclick="toggleTimer()"><i class="ti ti-player-play"></i> Mulai</button>
+            <button class="cbtn" onclick="resetTimer()"><i class="ti ti-refresh"></i> Reset</button>
+          </div>
+        </div>
+        <div class="sb-side">
+          <div class="sb-color" style="color:#cc0000">SUDUT MERAH</div>
+          <div class="sb-nm" id="sc-rnm">-</div>
+          <div class="sb-ktg" id="sc-rktg">-</div>
+          <div class="sb-score" style="color:#cc0000" id="sc-r">0</div>
+          <div class="sb-huk" id="sc-rhuk">-</div>
+        </div>
+      </div>
+
+      <!-- JURI PANEL -->
+      <div id="juri-panel" style="display:none">
+        <div id="no-laga-msg" style="display:none;background:#fff5f5;border:1.5px solid #cc0000;border-radius:10px;padding:16px;text-align:center;margin-bottom:11px">
+          <div style="font-size:24px;margin-bottom:8px">&#x26A0;&#xFE0F;</div>
+          <div style="font-weight:700;color:#cc0000;margin-bottom:4px">Belum ada laga aktif</div>
+          <div style="font-size:12px;color:#6b6b66">Minta Admin untuk setup turnamen dan laga terlebih dahulu, kemudian mulai laga dari menu Laga</div>
+        </div>
+        <div id="juri-lock-msg" class="locked-overlay">
+          <div class="lock-icon">&#x1F512;</div>
+          <div>Menunggu Ketua start timer</div>
+          <div style="font-size:11px;color:#bbb;margin-top:4px;font-weight:400">Input poin akan aktif saat timer berjalan</div>
+        </div>
+        <div class="juri-panel" id="juri-btns" style="display:none">
+          <div class="juri-side js-biru">
+            <div class="js-lbl" style="color:#185FA5">SUDUT BIRU</div>
+            <div class="js-nm" id="j-bnm">-</div>
+            <button class="jabtn jab-pb" onclick="juriInput('blue',1,'Pukulan')"><i class="ti ti-hand-stop"></i> Pukulan <span class="pts-badge">+1</span></button>
+            <button class="jabtn jab-tb" onclick="juriInput('blue',2,'Tendangan')"><i class="ti ti-shoe"></i> Tendangan <span class="pts-badge">+2</span></button>
+          </div>
+          <div class="juri-side js-merah">
+            <div class="js-lbl" style="color:#cc0000">SUDUT MERAH</div>
+            <div class="js-nm" id="j-rnm">-</div>
+            <button class="jabtn jab-pm" onclick="juriInput('red',1,'Pukulan')"><i class="ti ti-hand-stop"></i> Pukulan <span class="pts-badge">+1</span></button>
+            <button class="jabtn jab-tm" onclick="juriInput('red',2,'Tendangan')"><i class="ti ti-shoe"></i> Tendangan <span class="pts-badge">+2</span></button>
+          </div>
+        </div>
+        <div style="font-size:11px;color:#6b6b66;text-align:center;padding:8px;background:#f7f6f2;border-radius:6px;margin-bottom:11px">
+          Mode Single: poin langsung masuk &bull; Mode Multi: perlu 2 juri dalam 3 detik
+        </div>
+      </div>
+
+      <!-- DEWAN PANEL -->
+      <div id="dewan-panel" style="display:none">
+        <div class="dsec">
+          <div class="dsec-t">Jatuhan (+3 Poin)</div>
+          <div class="dbtns">
+            <button class="dbtn dbtn-jb" onclick="dewanJatuhan('blue')">
+              <div style="font-size:10px;opacity:.8">SUDUT BIRU</div>
+              <div><i class="ti ti-arrow-down"></i> Jatuhan +3</div>
+              <div style="font-size:10px;opacity:.7">Sapuan/Bantingan/Ungkitan/Guntingan</div>
+            </button>
+            <button class="dbtn dbtn-jm" onclick="dewanJatuhan('red')">
+              <div style="font-size:10px;opacity:.8">SUDUT MERAH</div>
+              <div><i class="ti ti-arrow-down"></i> Jatuhan +3</div>
+              <div style="font-size:10px;opacity:.7">Sapuan/Bantingan/Ungkitan/Guntingan</div>
+            </button>
+          </div>
+        </div>
+        <div class="dsec">
+          <div class="dsec-t">Hukuman</div>
+          <div style="font-size:11px;color:#6b6b66;margin-bottom:7px;font-weight:600">Pilih sasaran:</div>
+          <div class="htgt">
+            <div class="htgt-btn" id="ht-b" onclick="setHukTgt('blue')">BIRU</div>
+            <div class="htgt-btn" id="ht-r" onclick="setHukTgt('red')">MERAH</div>
+          </div>
+          <button class="hbtn h-p1" onclick="dewanHuk('pembinaan1')"><span>Pembinaan 1</span><span class="badge" style="background:#ddd;color:#555">Tidak kurangi poin</span></button>
+          <button class="hbtn h-p2" onclick="dewanHuk('pembinaan2')"><span>Pembinaan 2</span><span class="badge" style="background:#ddd;color:#555">Tidak kurangi poin</span></button>
+          <button class="hbtn h-w1" onclick="dewanHuk('peringatan1')"><span>Peringatan 1</span><span class="badge b-warn">-1 poin</span></button>
+          <button class="hbtn h-w2" onclick="dewanHuk('peringatan2')"><span>Peringatan 2</span><span class="badge b-warn">-2 poin</span></button>
+          <button class="hbtn h-t1" onclick="dewanHuk('teguran1')"><span>Teguran 1</span><span class="badge b-live">-5 poin</span></button>
+          <button class="hbtn h-t2" onclick="dewanHuk('teguran2')"><span>Teguran 2</span><span class="badge" style="background:#cc0000;color:#fff">-10 poin</span></button>
+        </div>
+      </div>
+
+      <!-- KETUA/ADMIN CONTROLS -->
+      <div id="score-ctrl" style="display:none">
+        <div style="display:flex;gap:8px;margin-bottom:11px">
+          <button class="btn btn-r" onclick="akhirBabak()" style="flex:1">Akhiri Babak</button>
+          <button class="btn btn-b" onclick="exportPDF()" style="flex:1">Export PDF</button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="ch"><span class="ct">Log Poin</span><button class="btn" style="font-size:11px" onclick="clearLog()">Hapus</button></div>
+        <div class="logbox" id="score-log"><div style="color:#6b6b66;font-size:11px">Belum ada poin.</div></div>
+      </div>
+    </div>
+
+  </div>
+  <div class="bnav" id="bnav"></div>
+</div>
+
+<!-- MODAL AKHIR BABAK -->
+<div class="mo" id="modal-akhir">
+  <div class="mb">
+    <button class="mc" onclick="closeModal('modal-akhir')">x</button>
+    <div class="mt">Hasil Babak</div>
+    <div id="modal-akhir-ct"></div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-r" onclick="lanjutBabak()" style="flex:1">Babak Berikutnya</button>
+      <button class="btn" onclick="closeModal('modal-akhir')" style="flex:1">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL GANTI PERAN -->
+<div class="mo" id="modal-ganti-peran">
+  <div class="mb" style="width:320px">
+    <button class="mc" onclick="closeModal('modal-ganti-peran')">x</button>
+    <div class="mt">Ganti Peran</div>
+    <p style="font-size:12px;color:#6b6b66;margin-bottom:14px">Data turnamen tetap tersimpan. Masuk sebagai peran lain:</p>
+    <div class="role-grid" style="margin-bottom:14px">
+      <div class="role-btn" onclick="pilihPeranBaru(this,'admin')"><i class="ti ti-shield-check"></i><div class="role-lbl">Admin</div><div class="role-desc">Sandi: 1234</div></div>
+      <div class="role-btn" onclick="pilihPeranBaru(this,'ketua')"><i class="ti ti-whistle"></i><div class="role-lbl">Ketua</div><div class="role-desc">Sandi: 3456</div></div>
+      <div class="role-btn" onclick="pilihPeranBaru(this,'juri')"><i class="ti ti-hand-stop"></i><div class="role-lbl">Juri</div><div class="role-desc">Sandi: 5678</div></div>
+      <div class="role-btn" onclick="pilihPeranBaru(this,'dewan')"><i class="ti ti-gavel"></i><div class="role-lbl">Dewan</div><div class="role-desc">Sandi: 9012</div></div>
+    </div>
+    <div class="fg"><label class="fl">Nama Pengguna</label><input class="fi" id="gp-nama" placeholder="Nama pengguna baru" type="text"></div>
+    <div class="fg"><label class="fl">Kata Sandi</label><input class="fi" id="gp-pass" placeholder="Kata sandi peran" type="password" onkeydown="if(event.key==='Enter')konfirmasiGantiPeran()"></div>
+    <div id="gp-err" style="font-size:11px;color:#cc0000;margin-bottom:8px;display:none"></div>
+    <button class="btn btn-r" style="width:100%" onclick="konfirmasiGantiPeran()">Masuk sebagai Peran Ini</button>
+  </div>
+</div>
+
+<!-- MODAL RESET -->
+<div class="mo" id="modal-reset">
+  <div class="mb">
+    <button class="mc" onclick="closeModal('modal-reset')">x</button>
+    <div class="mt">Reset Turnamen</div>
+    <p style="font-size:13px;color:#6b6b66;margin-bottom:16px">Yakin reset semua data (peserta, laga, bracket)?</p>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-r" onclick="konfirmasiReset()" style="flex:1">Ya, Reset</button>
+      <button class="btn" onclick="closeModal('modal-reset')" style="flex:1">Batal</button>
+    </div>
+  </div>
+</div>
+<script>
+var LOGO = "data:image/png;base64,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";
+
+// ===== SOCKET.IO CONNECTION =====
+var socket = io();
+var isOnline = true;
+
+socket.on('connect', function() {
+  isOnline = true;
+  document.getElementById("conn-status").textContent = "Online";
+  document.getElementById("conn-status").style.background = "#EAF3DE";
+  document.getElementById("conn-status").style.color = "#3B6D11";
+  // Re-login if we have credentials
+  if (currentUser && role) {
+    socket.emit('user_login', { name: currentUser, role: role });
+  }
+});
+
+socket.on('disconnect', function() {
+  isOnline = false;
+  document.getElementById("conn-status").textContent = "Offline";
+  document.getElementById("conn-status").style.background = "#FAECE7";
+  document.getElementById("conn-status").style.color = "#cc0000";
+});
+
+socket.on('state_update', function(data) {
+  tournaments = data.tournaments || [];
+  activeTId = data.activeTId;
+  currentLagaId = data.currentLagaId;
+  currentRound = data.currentRound || 1;
+  blueScore = data.blueScore || 0;
+  redScore = data.redScore || 0;
+  blueHuk = data.blueHuk || {p:0,w:0,t:0};
+  redHuk = data.redHuk || {p:0,w:0,t:0};
+  scoreLog = data.scoreLog || [];
+  rekapBabak = data.rekapBabak || [];
+  scoreMode = data.scoreMode || "single";
+  timerRunning = data.timerRunning || false;
+  if (!timerRunning) timeLeft = data.timeLeft || 120;
+  renderAll();
+  updateSBScore();
+  renderLog();
+  updateJuriLock();
+  syncKetuaDisplay();
+  // Sync laga display
+  if (currentLagaId) {
+    var at = getAT();
+    var l = at && at.laga.find(function(x){ return x.id === currentLagaId; });
+    if (l) {
+      document.getElementById("sc-bnm").textContent = l.biru;
+      document.getElementById("sc-bktg").textContent = l.biruKtg || "-";
+      document.getElementById("sc-rnm").textContent = l.merah;
+      document.getElementById("sc-rktg").textContent = l.merahKtg || "-";
+      document.getElementById("score-laga-nm").textContent = l.biru + " vs " + l.merah;
+      document.getElementById("score-laga-info").textContent = l.gel + " - " + l.kat;
+      if (document.getElementById("j-bnm")) document.getElementById("j-bnm").textContent = l.biru;
+      if (document.getElementById("j-rnm")) document.getElementById("j-rnm").textContent = l.merah;
+    }
+  }
+});
+
+socket.on('timer_tick', function(data) {
+  timeLeft = data.timeLeft;
+  var m = Math.floor(timeLeft/60); var s = timeLeft % 60;
+  var ts = String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+  document.getElementById("score-timer").textContent = ts;
+  document.getElementById("score-timer").style.color = timeLeft <= 10 ? "#cc0000" : "#1a1a18";
+  if (document.getElementById("kt-timer")) {
+    document.getElementById("kt-timer").textContent = ts;
+    document.getElementById("kt-timer").style.color = timeLeft <= 10 ? "#ff4444" : "#fff";
+  }
+  if (timeLeft === 10) soundTimerWarning();
+});
+
+socket.on('timer_end', function() {
+  timerRunning = false;
+  timeLeft = 0;
+  soundTimerEnd();
+  toast("Waktu babak habis!");
+  document.getElementById("tstat").textContent = "Waktu Habis!";
+  if (document.getElementById("kt-tstat")) document.getElementById("kt-tstat").textContent = "Waktu Habis!";
+  updateJuriLock();
+  akhirBabakModal();
+});
+
+socket.on('score_update', function(data) {
+  blueScore = data.blueScore;
+  redScore = data.redScore;
+  blueHuk = data.blueHuk;
+  redHuk = data.redHuk;
+  scoreLog = data.scoreLog;
+  updateSBScore();
+  renderLog();
+  syncKetuaDisplay();
+  if (data.pts > 0) soundPoin();
+  else if (data.pts < 0) soundHukuman();
+  var el = document.getElementById(data.side === "blue" ? "sc-b" : "sc-r");
+  if (el) { el.style.transform = "scale(1.3)"; el.style.transition = "transform .2s"; setTimeout(function(){ el.style.transform = "scale(1)"; }, 200); }
+});
+
+socket.on('babak_selesai', function(data) {
+  rekapBabak = data.rekapBabak;
+  akhirBabakModal();
+});
+
+socket.on('users_update', function(users) {
+  var count = users.length;
+  document.getElementById("users-count").textContent = count + " online";
+});
+
+socket.on('pending_votes', function(votes) {
+  // show pending indicator
+});
+
+socket.on('pending_jatuhan', function(votes) {
+  var box = document.getElementById("jatuhan-pending-box");
+  var info = document.getElementById("jatuhan-pending-info");
+  if (box && votes.length > 0) {
+    box.style.display = "block";
+    var v = votes[0];
+    if (info) info.textContent = "Jatuhan Sudut " + (v.side==="blue"?"BIRU":"MERAH") + " - " + v.users[0] + " sudah input. Tunggu Dewan ke-2!";
+  } else if (box) {
+    box.style.display = "none";
+  }
+});
+
+socket.on('jatuhan_cleared', function() {
+  var box = document.getElementById("jatuhan-pending-box");
+  if (box) box.style.display = "none";
+});
+
+socket.on('toast_msg', function(msg) { toast(msg); });
+socket.on('error_msg', function(msg) { toast("! " + msg); });
+
+var role = "admin";
+var currentUser = "";
+var PASSWORDS = {admin:"1234", ketua:"3456", juri:"5678", dewan:"9012"};
+var PASS_HINTS = {admin:"Sandi Admin: 1234", ketua:"Sandi Ketua/Wasit: 3456", juri:"Sandi Juri: 5678", dewan:"Sandi Dewan: 9012"};
+var tournaments = [];
+var activeTId = null;
+var scoreMode = "single";
+var currentLagaId = null;
+var currentRound = 1;
+var blueScore = 0, redScore = 0;
+var blueHuk = {p:0, w:0, t:0};
+var redHuk = {p:0, w:0, t:0};
+var scoreLog = [];
+var rekapBabak = []; // store per-round results
+var pendingJatuhan = []; // pending jatuhan confirmations
+var timeLeft = 120, timerRunning = false, timerInterval = null;
+var hukTgt = null;
+var pendingVotes = [];
+var nextUndian = 1;
+var resetTId = null;
+
+var NAV = {
+  admin: [{id:"dashboard",icon:"ti-layout-dashboard",lbl:"Dashboard"},{id:"turnamen",icon:"ti-trophy",lbl:"Turnamen"},{id:"registrasi",icon:"ti-user-plus",lbl:"Peserta"},{id:"laga",icon:"ti-calendar-event",lbl:"Laga"},{id:"bracket",icon:"ti-tournament",lbl:"Bracket"},{id:"scoring",icon:"ti-award",lbl:"Scoring"}],
+  ketua: [{id:"ketua-timer",icon:"ti-clock",lbl:"Timer"},{id:"ketua-monitor",icon:"ti-eye",lbl:"Monitor"},{id:"laga",icon:"ti-calendar-event",lbl:"Laga"}],
+  juri:  [{id:"scoring",icon:"ti-hand-stop",lbl:"Input Poin"}],
+  dewan: [{id:"scoring",icon:"ti-gavel",lbl:"Jatuhan"}]
+};
+var ROLE_LBL = {admin:"Administrator", ketua:"Ketua / Wasit", juri:"Juri", dewan:"Dewan"};
+var TOP_CLS = {admin:"top-admin", ketua:"top-ketua", juri:"top-juri", dewan:"top-dewan"};
+var ACT_CLS = {admin:"act-admin", ketua:"act-ketua", juri:"act-juri", dewan:"act-dewan"};
+
+// Set logos
+document.getElementById("logo1").src = LOGO;
+document.getElementById("logo2").src = LOGO;
+document.getElementById("logo3").src = LOGO;
+// Show default hint
+document.getElementById("pass-hint").textContent = PASS_HINTS["admin"];
+
+function selRole(el, r) {
+  document.querySelectorAll(".role-btn").forEach(function(b){ b.classList.remove("sel"); });
+  el.classList.add("sel");
+  role = r;
+  var hint = document.getElementById("pass-hint");
+  if (hint) hint.textContent = PASS_HINTS[r];
+  document.getElementById("l-pass").value = "";
+  document.getElementById("l-pass").focus();
+}
+
+function doLogin() {
+  var u = document.getElementById("l-user").value.trim();
+  if (!u) { 
+    document.getElementById("l-user").style.borderColor = "#cc0000";
+    document.getElementById("l-user").style.background = "#fff5f5";
+    setTimeout(function(){ document.getElementById("l-user").style.borderColor = ""; document.getElementById("l-user").style.background = ""; }, 1500);
+    toast("Nama pengguna wajib diisi!"); return; 
+  }
+  var pass = document.getElementById("l-pass").value;
+  if (pass !== PASSWORDS[role]) {
+    document.getElementById("l-pass").style.borderColor = "#cc0000";
+    document.getElementById("l-pass").style.background = "#fff5f5";
+    var hint = document.getElementById("pass-hint");
+    hint.textContent = "Kata sandi salah! " + PASS_HINTS[role];
+    hint.style.color = "#cc0000";
+    setTimeout(function(){
+      document.getElementById("l-pass").style.borderColor = "";
+      document.getElementById("l-pass").style.background = "";
+    }, 1500);
+    return;
+  }
+  currentUser = u;
+  document.getElementById("login-screen").style.display = "none";
+  var app = document.getElementById("app");
+  app.style.display = "flex";
+  document.getElementById("role-badge").textContent = ROLE_LBL[role];
+  document.getElementById("topbar-role").textContent = u + " (" + ROLE_LBL[role] + ")";
+  var tb = document.getElementById("topbar");
+  tb.className = "topbar " + TOP_CLS[role];
+  buildNav();
+  renderAll();
+  showSec(NAV[role][0].id);
+  // Emit to server
+  socket.emit('user_login', { name: currentUser, role: role });
+}
+
+function doLogout() {
+  document.getElementById("app").style.display = "none";
+  document.getElementById("login-screen").style.display = "flex";
+  clearInterval(timerInterval);
+}
+
+function buildNav() {
+  var bnav = document.getElementById("bnav");
+  bnav.innerHTML = "";
+  NAV[role].forEach(function(n) {
+    var btn = document.createElement("button");
+    btn.className = "ni";
+    btn.id = "nav-" + n.id;
+    btn.innerHTML = '<i class="ti ' + n.icon + '"></i><span>' + n.lbl + '</span>';
+    btn.onclick = function() { showSec(n.id); };
+    bnav.appendChild(btn);
+  });
+  document.getElementById("sb-btn").style.display = role === "admin" ? "block" : "none";
+  document.getElementById("btn-ganti-peran").style.display = role === "admin" ? "inline-flex" : "none";
+  document.getElementById("score-setup").style.display = role === "admin" ? "block" : "none";
+  document.getElementById("mode-wrap").style.display = role === "admin" ? "block" : "none";
+  document.getElementById("timer-ctrl").style.display = role === "admin" ? "block" : "none";
+  document.getElementById("juri-panel").style.display = (role === "juri" || role === "admin") ? "block" : "none";
+  document.getElementById("dewan-panel").style.display = (role === "dewan" || role === "admin") ? "block" : "none";
+  document.getElementById("score-ctrl").style.display = role === "admin" ? "block" : "none";
+}
+
+function showSec(id) {
+  document.querySelectorAll(".sec").forEach(function(s){ s.classList.remove("active"); });
+  document.querySelectorAll(".ni").forEach(function(b){ b.classList.remove("act-admin","act-ketua","act-juri","act-dewan"); });
+  var sec = document.getElementById("sec-" + id);
+  if (sec) sec.classList.add("active");
+  var btn = document.getElementById("nav-" + id);
+  if (btn) btn.classList.add(ACT_CLS[role]);
+  if (id === "scoring") { renderScoreLagaSel(); updateJuriLock(); }
+  if (id === "ketua-timer" || id === "ketua-monitor") syncKetuaDisplay();
+}
+
+function getAT() { return tournaments.find(function(t){ return t.id === activeTId; }) || null; }
+
+function renderAll() {
+  updateSB();
+  renderDash();
+  renderTList();
+  renderPeserta();
+  renderLagaTbl();
+  renderBracket();
+  renderScoreLagaSel();
+}
+
+function updateSB() {
+  var at = getAT();
+  if (at) {
+    document.getElementById("sb-name").textContent = at.nama;
+    document.getElementById("sb-det").textContent = (at.lokasi || "") + (at.tgl1 ? " - " + at.tgl1 : "");
+  } else {
+    document.getElementById("sb-name").textContent = "Belum ada turnamen aktif";
+    document.getElementById("sb-det").textContent = "Buat atau pilih turnamen";
+  }
+}
+
+// TURNAMEN
+function buatTurnamen() {
+  var nama = document.getElementById("t-nama").value.trim();
+  if (!nama) { toast("Nama wajib diisi!"); return; }
+  var t = {
+    id: Date.now(), nama: nama,
+    tgl1: document.getElementById("t-tgl1").value,
+    tgl2: document.getElementById("t-tgl2").value,
+    lokasi: document.getElementById("t-lokasi").value.trim(),
+    peserta: [], laga: [], bracketData: {}
+  };
+  socket.emit('buat_turnamen', t);
+  document.getElementById("t-nama").value = "";
+  document.getElementById("t-tgl1").value = "";
+  document.getElementById("t-tgl2").value = "";
+  document.getElementById("t-lokasi").value = "";
+  toast("Turnamen dibuat dan diaktifkan!");
+}
+
+function aktivasiT(id) { socket.emit('set_active_tournament', id); toast("Turnamen diaktifkan"); }
+function promptReset(id) { resetTId = id; openModal("modal-reset"); }
+function hapusT(id) {
+  tournaments = tournaments.filter(function(t){ return t.id !== id; });
+  if (activeTId === id) activeTId = tournaments.length ? tournaments[0].id : null;
+  renderAll(); toast("Turnamen dihapus");
+}
+function konfirmasiReset() {
+  socket.emit('reset_tournament', resetTId);
+  toast("Data direset!");
+  closeModal("modal-reset");
+}
+
+function renderTList() {
+  document.getElementById("t-count").textContent = tournaments.length;
+  var el = document.getElementById("t-list");
+  if (!tournaments.length) { el.innerHTML = '<div style="color:#6b6b66;font-size:12px">Belum ada turnamen.</div>'; return; }
+  el.innerHTML = "";
+  tournaments.forEach(function(t) {
+    var isAct = t.id === activeTId;
+    var div = document.createElement("div");
+    div.className = "tcard" + (isAct ? " active-t" : "");
+    div.innerHTML = '<div class="tcard-icon"><i class="ti ti-trophy"></i></div>' +
+      '<div class="tcard-info"><div class="tcard-nm">' + t.nama + (isAct ? ' <span class="badge b-done">Aktif</span>' : '') + '</div>' +
+      '<div class="tcard-det">' + (t.lokasi || "-") + " - " + t.peserta.length + " peserta - " + t.laga.length + ' laga</div></div>' +
+      '<div class="tcard-act">' +
+      '<button class="btn" style="font-size:11px" id="rbtn-' + t.id + '">Reset</button> ' +
+      '<button class="btn" style="font-size:11px;color:#cc0000" id="dbtn-' + t.id + '">Hapus</button></div>';
+    el.appendChild(div);
+    div.querySelector(".tcard-info").addEventListener("click", function(){ aktivasiT(t.id); });
+    document.getElementById("rbtn-" + t.id).addEventListener("click", function(){ promptReset(t.id); });
+    document.getElementById("dbtn-" + t.id).addEventListener("click", function(){ hapusT(t.id); });
+  });
+}
+
+// DASHBOARD
+function renderDash() {
+  var at = getAT();
+  document.getElementById("no-t").style.display = at ? "none" : "block";
+  document.getElementById("dash-ok").style.display = at ? "block" : "none";
+  if (!at) return;
+  var ktgs = [];
+  at.peserta.forEach(function(p){ if (ktgs.indexOf(p.kat) < 0) ktgs.push(p.kat); });
+  var ktngs = [];
+  at.peserta.forEach(function(p){ if (ktngs.indexOf(p.daerah) < 0) ktngs.push(p.daerah); });
+  document.getElementById("d-p").textContent = at.peserta.length;
+  document.getElementById("d-l").textContent = at.laga.length;
+  document.getElementById("d-k").textContent = ktgs.length;
+  document.getElementById("d-kt").textContent = ktngs.length;
+  var bc = document.getElementById("bchart");
+  if (!at.peserta.length) { bc.innerHTML = '<div style="color:#6b6b66;font-size:11px;align-self:center">Belum ada peserta</div>'; }
+  else {
+    var counts = {};
+    at.peserta.forEach(function(p){ var k = p.kelas + " " + (p.kat.indexOf("Putri") >= 0 ? "Putri" : "Putra"); counts[k] = (counts[k] || 0) + 1; });
+    var keys = Object.keys(counts), vals = keys.map(function(k){ return counts[k]; }), mx = Math.max.apply(null, vals) || 1;
+    bc.innerHTML = keys.map(function(k, i){ return '<div class="bcol"><div class="bval">' + vals[i] + '</div><div class="bbar" style="height:' + Math.round(vals[i]/mx*64) + 'px;background:' + (i%2===0?"#cc0000":"#185FA5") + '"></div><div class="blbl">' + k + '</div></div>'; }).join("");
+  }
+  var ld = document.getElementById("laga-dash");
+  if (!at.laga.length) { ld.innerHTML = '<div style="color:#6b6b66;font-size:12px">Belum ada laga.</div>'; return; }
+  ld.innerHTML = "";
+  at.laga.forEach(function(l) {
+    var d = document.createElement("div");
+    d.className = "mi";
+    var sc = l.status === "selesai" ? "b-done" : l.status === "live" ? "b-live" : "b-soon";
+    var st = l.status === "selesai" ? "Selesai" : l.status === "live" ? "LIVE" : (l.waktu || "Menunggu");
+    d.innerHTML = '<div class="mn"><div>' + l.biru + ' vs ' + l.merah + '</div><div style="font-size:10px;color:#6b6b66"><span class="gel-tag">' + l.gel + '</span> ' + l.kat + '</div></div><span class="badge ' + sc + '">' + st + '</span>';
+    ld.appendChild(d);
+  });
+}
+
+// PESERTA
+function daftarPeserta() {
+  var at = getAT(); if (!at) { toast("Pilih turnamen dulu!"); return; }
+  var nama = document.getElementById("r-nama").value.trim(); if (!nama) { toast("Nama wajib!"); return; }
+  var daerah = document.getElementById("r-daerah").value.trim(); if (!daerah) { toast("Kontingen wajib!"); return; }
+  var undian = document.getElementById("r-undian").value.trim() || String(nextUndian++).padStart(3, "0");
+  socket.emit('daftar_peserta', { id: Date.now(), nama: nama, daerah: daerah, kat: document.getElementById("r-kat").value, kelas: document.getElementById("r-kelas").value, undian: undian, status: "Menunggu" });
+  resetForm();
+  toast(nama + " (No." + undian + ") didaftarkan!");
+}
+function resetForm() { ["r-nama","r-daerah","r-undian","r-tgl"].forEach(function(id){ document.getElementById(id).value = ""; }); }
+function cariPeserta(v) { renderPeserta(v); }
+function renderPeserta(filter) {
+  var at = getAT(); var list = at ? at.peserta : [];
+  if (filter) list = list.filter(function(p){ return p.nama.toLowerCase().indexOf(filter.toLowerCase()) >= 0 || p.daerah.toLowerCase().indexOf(filter.toLowerCase()) >= 0; });
+  document.getElementById("p-count").textContent = at ? at.peserta.length : 0;
+  var tb = document.getElementById("p-tbody");
+  tb.innerHTML = "";
+  if (!list.length) { tb.innerHTML = '<tr><td colspan="5" style="color:#6b6b66;text-align:center;padding:12px">Belum ada peserta.</td></tr>'; return; }
+  list.forEach(function(p) {
+    var tr = document.createElement("tr");
+    tr.innerHTML = '<td>' + p.undian + '</td><td><div style="font-weight:600">' + p.nama + '</div><div style="font-size:10px;color:#6b6b66">' + p.kat + '</div></td><td>' + p.daerah + '</td><td>Kls ' + p.kelas + '</td><td><span class="badge ' + (p.status === "Terverifikasi" ? "b-done" : "b-warn") + '">' + (p.status === "Terverifikasi" ? "OK" : "Menunggu") + '</span></td>';
+    tb.appendChild(tr);
+  });
+}
+
+// LAGA
+function tambahLaga() {
+  var at = getAT(); if (!at) { toast("Pilih turnamen dulu!"); return; }
+  var biru = document.getElementById("lg-biru").value.trim(); if (!biru) { toast("Nama biru wajib!"); return; }
+  var merah = document.getElementById("lg-merah").value.trim(); if (!merah) { toast("Nama merah wajib!"); return; }
+  socket.emit('tambah_laga', { id: Date.now(), gel: document.getElementById("laga-gel").value, kat: document.getElementById("laga-kat").value, biru: biru, merah: merah, biruKtg: document.getElementById("lg-bktg").value.trim(), merahKtg: document.getElementById("lg-mktg").value.trim(), waktu: document.getElementById("lg-waktu").value, status: "menunggu", skorBiru: 0, skorMerah: 0 });
+  ["lg-biru","lg-merah","lg-bktg","lg-mktg"].forEach(function(id){ document.getElementById(id).value = ""; });
+  toast("Laga " + biru + " vs " + merah + " ditambahkan!");
+}
+function hapusLaga(id) {
+  socket.emit('hapus_laga', id);
+}
+function resetLaga() {
+  if (!confirm("Reset semua laga?")) return;
+  socket.emit('reset_laga');
+  toast("Semua laga direset");
+}
+function renderLagaTbl() {
+  var at = getAT(); var list = at ? at.laga : [];
+  document.getElementById("laga-count").textContent = list.length;
+  var el = document.getElementById("laga-tbl");
+  el.innerHTML = "";
+  if (!list.length) { el.innerHTML = '<div style="color:#6b6b66;font-size:12px">Belum ada laga.</div>'; return; }
+  var tbl = document.createElement("table");
+  tbl.className = "tbl";
+  tbl.innerHTML = '<thead><tr><th>#</th><th>Laga</th><th>Gel</th><th>Waktu</th><th>Status</th><th></th></tr></thead>';
+  var tbody = document.createElement("tbody");
+  list.forEach(function(l, i) {
+    var tr = document.createElement("tr");
+    var sc = l.status === "selesai" ? "b-done" : l.status === "live" ? "b-live" : "b-soon";
+    var st = l.status === "selesai" ? "Selesai" : l.status === "live" ? "LIVE" : "Menunggu";
+    tr.innerHTML = '<td>' + (i+1) + '</td><td><div style="font-weight:600">' + l.biru + '</div><div style="font-size:10px;color:#6b6b66">vs ' + l.merah + '</div></td><td style="font-size:11px">' + l.gel + '</td><td style="font-size:12px">' + (l.waktu || "-") + '</td><td><span class="badge ' + sc + '">' + st + '</span></td><td></td>';
+    var td = tr.querySelector("td:last-child");
+    var btnS = document.createElement("button");
+    btnS.className = "btn btn-r"; btnS.style.fontSize = "11px"; btnS.style.padding = "5px 8px";
+    btnS.textContent = role === "ketua" ? "Mulai" : "Scoring";
+    btnS.addEventListener("click", function(){ lagaKeScoring(l.id); });
+    var btnH = document.createElement("button");
+    btnH.className = "btn"; btnH.style.fontSize = "11px"; btnH.style.padding = "5px 8px"; btnH.style.color = "#cc0000"; btnH.style.marginLeft = "4px";
+    btnH.textContent = "Hapus";
+    btnH.addEventListener("click", function(){ hapusLaga(l.id); });
+    td.appendChild(btnS); td.appendChild(btnH);
+    tbody.appendChild(tr);
+  });
+  tbl.appendChild(tbody);
+  el.appendChild(tbl);
+}
+
+// BRACKET
+function genBracket() {
+  var at = getAT(); if (!at) { toast("Pilih turnamen dulu!"); return; }
+  var kat = document.getElementById("bkt-kat").value;
+  var filtered = at.peserta.filter(function(p){ return p.kelas + " " + (p.kat.indexOf("Putri") >= 0 ? "Putri" : "Putra") === kat; });
+  if (filtered.length < 2) { toast("Minimal 2 peserta!"); return; }
+  var sh = filtered.slice().sort(function(){ return Math.random() - .5; });
+  var pairs = []; for (var i = 0; i < sh.length; i += 2) pairs.push([sh[i], sh[i+1] || null]);
+  if (!at.bracketData) at.bracketData = {};
+  at.bracketData[kat] = { qf: pairs, sf: [], final: [], winner: null };
+  toast("Bracket digenerate!"); renderBracket();
+}
+function lagaDariBracket() {
+  var at = getAT(); if (!at) { toast("Pilih turnamen dulu!"); return; }
+  var kat = document.getElementById("bkt-kat").value;
+  var bd = at.bracketData && at.bracketData[kat];
+  if (!bd || !bd.qf || !bd.qf.length) { toast("Generate bracket dulu!"); return; }
+  var added = 0;
+  bd.qf.forEach(function(pair, i) {
+    if (pair[0] && pair[1]) {
+      at.laga.push({ id: Date.now()+i, gel: "Gelanggang A", kat: kat, biru: pair[0].nama, merah: pair[1].nama, biruKtg: pair[0].daerah || "", merahKtg: pair[1].daerah || "", waktu: "08:00", status: "menunggu", skorBiru: 0, skorMerah: 0 });
+      added++;
+    }
+  });
+  toast(added + " laga dibuat dari bracket!"); renderLagaTbl(); renderDash(); renderScoreLagaSel();
+}
+function renderBracket() {
+  var at = getAT(); var kat = document.getElementById("bkt-kat").value;
+  var bd = at && at.bracketData && at.bracketData[kat] || null;
+  var area = document.getElementById("bracket-area");
+  if (!bd) { area.innerHTML = '<div style="color:#6b6b66;font-size:12px;padding:16px">Belum ada bracket. Tambah peserta lalu Generate.</div>'; return; }
+  var html = '<div class="bround"><div class="rl">Perempat Final</div>';
+  bd.qf.forEach(function(pair) {
+    html += '<div class="bm">';
+    var w0 = pair[0] && pair[1] && pair[0].score != null && pair[1].score != null && pair[0].score > pair[1].score;
+    var w1 = pair[0] && pair[1] && pair[0].score != null && pair[1].score != null && pair[1].score > pair[0].score;
+    html += '<div class="bp' + (w0 ? " win" : "") + '">' + ((pair[0] && pair[0].nama) || "BYE") + ' <span class="bpts">' + (pair[0] && pair[0].score != null ? pair[0].score : "-") + '</span></div>';
+    html += pair[1] ? '<div class="bp' + (w1 ? " win" : "") + '">' + pair[1].nama + ' <span class="bpts">' + (pair[1].score != null ? pair[1].score : "-") + '</span></div>' : '<div class="bp" style="color:#6b6b66;font-style:italic">BYE</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+  if (bd.sf && bd.sf.length) {
+    html += '<div class="bround"><div class="rl">Semifinal</div>';
+    var tp = Math.round(bd.qf.length / bd.sf.length) * 28;
+    bd.sf.forEach(function(pair, i) { html += '<div class="bm" style="margin-top:' + (i===0?tp:tp*2) + 'px"><div class="bp">' + ((pair[0] && pair[0].nama) || "TBD") + ' <span class="bpts">' + (pair[0] && pair[0].score != null ? pair[0].score : "-") + '</span></div><div class="bp">' + ((pair[1] && pair[1].nama) || "TBD") + ' <span class="bpts">' + (pair[1] && pair[1].score != null ? pair[1].score : "-") + '</span></div></div>'; });
+    html += '</div>';
+  }
+  if (bd.final && bd.final.length) {
+    html += '<div class="bround"><div class="rl">Final</div>';
+    bd.final.forEach(function(pair) { html += '<div class="bm" style="margin-top:90px"><div class="bp">' + ((pair[0] && pair[0].nama) || "TBD") + ' <span class="bpts">' + (pair[0] && pair[0].score != null ? pair[0].score : "-") + '</span></div><div class="bp">' + ((pair[1] && pair[1].nama) || "TBD") + ' <span class="bpts">' + (pair[1] && pair[1].score != null ? pair[1].score : "-") + '</span></div></div>'; });
+    html += '</div>';
+  }
+  html += '<div class="bround"><div class="rl">Juara</div><div style="margin-top:115px;text-align:center"><div style="font-size:28px">&#127942;</div><div style="font-size:12px;font-weight:700;margin-top:5px">' + (bd.winner || "Belum Final") + '</div></div></div>';
+  area.innerHTML = html;
+}
+
+// SCORING
+function renderScoreLagaSel() {
+  var at = getAT(); var sel = document.getElementById("score-laga-sel"); if (!sel) return;
+  var list = at ? at.laga : [];
+  sel.innerHTML = '<option value="">-- Pilih Laga --</option>';
+  list.forEach(function(l) {
+    var opt = document.createElement("option");
+    opt.value = l.id; opt.textContent = l.biru + " vs " + l.merah + " (" + l.gel + ")";
+    sel.appendChild(opt);
+  });
+  if (currentLagaId) sel.value = currentLagaId;
+}
+function pilihLaga() {
+  var id = parseInt(document.getElementById("score-laga-sel").value);
+  if (id) lagaKeScoring(id);
+}
+function lagaKeScoring(id) {
+  socket.emit('laga_ke_scoring', id);
+  var at = getAT(); if (!at) return;
+  var l = at.laga.find(function(x){ return x.id === id; }); if (!l) return;
+  if (role === "ketua") showSec("ketua-timer");
+  else if (role !== "admin") showSec("scoring");
+  toast("Scoring: " + l.biru + " vs " + l.merah);
+}
+
+function setMode(m, el) {
+  scoreMode = m;
+  document.querySelectorAll(".mode-btn").forEach(function(b){ b.classList.remove("active"); });
+  el.classList.add("active");
+  toast("Mode: " + (m === "single" ? "Single Perangkat" : "Multi Juri (2 suara)"));
+}
+
+function setRound(n, btn) {
+  currentRound = n;
+  document.querySelectorAll(".rbtn").forEach(function(b){ b.classList.remove("active"); });
+  btn.classList.add("active");
+  blueScore = 0; redScore = 0; blueHuk = {p:0,w:0,t:0}; redHuk = {p:0,w:0,t:0};
+  scoreLog = []; pendingVotes = []; resetTimer(); updateSBScore(); renderLog();
+}
+
+function juriInput(side, pts, label) {
+  if (!currentLagaId) { toast("Pilih laga dulu!"); return; }
+  if (!timerRunning) { toast("Tunggu Ketua start timer dulu!"); shakeScoreTimer(); return; }
+  socket.emit('juri_input', { side: side, pts: pts, label: label, userName: currentUser, mode: scoreMode });
+}
+
+function setHukTgt(side) {
+  hukTgt = side;
+  document.getElementById("ht-b").className = "htgt-btn" + (side === "blue" ? " sel-b" : "");
+  document.getElementById("ht-r").className = "htgt-btn" + (side === "red" ? " sel-r" : "");
+}
+
+var HUK = {
+  pembinaan1: {label:"Pembinaan 1", pts:0},
+  pembinaan2: {label:"Pembinaan 2", pts:0},
+  peringatan1: {label:"Peringatan 1", pts:-1},
+  peringatan2: {label:"Peringatan 2", pts:-2},
+  teguran1: {label:"Teguran 1", pts:-5},
+  teguran2: {label:"Teguran 2", pts:-10}
+};
+
+function dewanJatuhan(side) {
+  if (!currentLagaId) { toast("Pilih laga dulu!"); return; }
+  if (!timerRunning) { toast("Timer belum berjalan!"); return; }
+  var now = Date.now();
+  // Find existing pending for same side
+  var ex = pendingJatuhan.find(function(v){ return v.side === side && (now - v.time) < 5000; });
+  if (ex) {
+    // Second dewan confirms
+    ex.votes++;
+    ex.users.push(currentUser);
+    if (ex.votes >= 2) {
+      addScore(side, 3, "Jatuhan", ex.users.join(" + "));
+      pendingJatuhan = pendingJatuhan.filter(function(v){ return v !== ex; });
+      document.getElementById("jatuhan-pending-box").style.display = "none";
+      toast("SAH! Jatuhan " + (side==="blue"?"Biru":"Merah") + " +3");
+      soundPoin();
+    }
+  } else {
+    // First dewan input
+    var vote = {side:side, pts:3, label:"Jatuhan", time:now, votes:1, users:[currentUser]};
+    pendingJatuhan.push(vote);
+    // Show pending indicator
+    var box = document.getElementById("jatuhan-pending-box");
+    var info = document.getElementById("jatuhan-pending-info");
+    box.style.display = "block";
+    info.textContent = "Jatuhan Sudut " + (side==="blue"?"BIRU":"MERAH") + " — " + currentUser + " sudah input. Tunggu Dewan ke-2!";
+    // Auto expire after 5s
+    setTimeout(function(){
+      pendingJatuhan = pendingJatuhan.filter(function(v){ return v !== vote; });
+      if (!pendingJatuhan.length) document.getElementById("jatuhan-pending-box").style.display = "none";
+    }, 5000);
+    toast("Jatuhan dicatat — tunggu Dewan ke-2 konfirmasi!");
+  }
+}
+
+function dewanHuk(type) {
+  if (!currentLagaId) { toast("Pilih laga dulu!"); return; }
+  if (!hukTgt) { toast("Pilih sasaran (Biru/Merah) dulu!"); return; }
+  var h = HUK[type];
+  if (h.pts === 0) {
+    var elapsed = 120 - timeLeft; var m = Math.floor(elapsed/60); var s = elapsed % 60;
+    var ts = String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+    scoreLog.unshift({time:ts, side:hukTgt, label:h.label, pts:0, by:"Dewan"});
+    renderLog();
+    toast(h.label + " untuk Sudut " + (hukTgt === "blue" ? "Biru" : "Merah") + " - dicatat");
+  } else {
+    addScore(hukTgt, h.pts, h.label, "Dewan");
+  }
+  var hk = hukTgt === "blue" ? blueHuk : redHuk;
+  if (type.indexOf("pembinaan") >= 0) hk.p++;
+  else if (type.indexOf("peringatan") >= 0) hk.w++;
+  else if (type.indexOf("teguran") >= 0) hk.t++;
+  updateSBScore();
+}
+
+function addScore(side, pts, label, by) {
+  var elapsed = 120 - timeLeft; var m = Math.floor(elapsed/60); var s = elapsed % 60;
+  var ts = String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+  if (side === "blue") blueScore = Math.max(0, blueScore + pts);
+  else redScore = Math.max(0, redScore + pts);
+  scoreLog.unshift({time:ts, side:side, label:label, pts:pts, by:by || "-"});
+  updateSBScore(); renderLog();
+  if (pts > 0) soundPoin();
+  else if (pts < 0) soundHukuman();
+  // Flash score
+  var el = document.getElementById(side === "blue" ? "sc-b" : "sc-r");
+  el.style.transform = "scale(1.3)";
+  el.style.transition = "transform .2s";
+  setTimeout(function(){ el.style.transform = "scale(1)"; }, 200);
+}
+
+function updateSBScore() {
+  document.getElementById("sc-b").textContent = blueScore;
+  document.getElementById("sc-r").textContent = redScore;
+  document.getElementById("sc-bhuk").textContent = "P:" + blueHuk.p + " W:" + blueHuk.w + " T:" + blueHuk.t;
+  document.getElementById("sc-rhuk").textContent = "P:" + redHuk.p + " W:" + redHuk.w + " T:" + redHuk.t;
+}
+
+function renderLog() {
+  var box = document.getElementById("score-log");
+  if (!scoreLog.length) { box.innerHTML = '<div style="color:#6b6b66;font-size:11px">Belum ada poin.</div>'; return; }
+  box.innerHTML = "";
+  scoreLog.forEach(function(l) {
+    var d = document.createElement("div");
+    d.className = "loge";
+    var col = l.side === "blue" ? "#185FA5" : "#cc0000";
+    var ptsTxt = l.pts === 0 ? "Dicatat" : (l.pts > 0 ? "+" + l.pts : l.pts);
+    var ptsCol = l.pts > 0 ? "#3B6D11" : l.pts < 0 ? "#cc0000" : "#6b6b66";
+    d.innerHTML = '<span class="logt">' + l.time + '</span><span style="color:' + col + ';font-weight:700;font-size:10px">' + (l.side === "blue" ? "BIRU" : "MERAH") + '</span><span style="flex:1">' + l.label + '</span><span style="font-size:10px;color:#6b6b66">' + l.by + '</span><span style="font-weight:700;color:' + ptsCol + '">' + ptsTxt + '</span>';
+    box.appendChild(d);
+  });
+}
+function clearLog() { scoreLog = []; renderLog(); }
+
+// ===== SOUND =====
+var audioCtx = null;
+function getAudioCtx() {
+  if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  return audioCtx;
+}
+function playBeep(freq, dur, vol, type) {
+  try {
+    var ctx = getAudioCtx();
+    var osc = ctx.createOscillator();
+    var gain = ctx.createGain();
+    osc.connect(gain); gain.connect(ctx.destination);
+    osc.frequency.value = freq || 880;
+    osc.type = type || "sine";
+    gain.gain.setValueAtTime(vol || 0.3, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + (dur || 0.3));
+    osc.start(ctx.currentTime);
+    osc.stop(ctx.currentTime + (dur || 0.3));
+  } catch(e) {}
+}
+function soundPoin() {
+  playBeep(660, 0.15, 0.4, "sine");
+  setTimeout(function(){ playBeep(880, 0.2, 0.35, "sine"); }, 120);
+}
+function soundHukuman() {
+  playBeep(330, 0.3, 0.4, "sawtooth");
+}
+function soundTimerEnd() {
+  playBeep(880, 0.15, 0.5, "square");
+  setTimeout(function(){ playBeep(660, 0.15, 0.5, "square"); }, 180);
+  setTimeout(function(){ playBeep(440, 0.4, 0.5, "square"); }, 360);
+}
+function soundTimerWarning() {
+  playBeep(1100, 0.08, 0.3, "sine");
+}
+
+// ===== KETUA TIMER FUNCTIONS =====
+function syncKetuaDisplay() {
+  document.getElementById("kt-timer").textContent = document.getElementById("score-timer").textContent;
+  document.getElementById("kt-tstat").textContent = document.getElementById("tstat").textContent;
+  document.getElementById("kt-blue-score").textContent = blueScore;
+  document.getElementById("kt-red-score").textContent = redScore;
+  document.getElementById("kt-blue-nm").textContent = document.getElementById("sc-bnm").textContent;
+  document.getElementById("kt-red-nm").textContent = document.getElementById("sc-rnm").textContent;
+  document.getElementById("kt-laga-nm").textContent = document.getElementById("score-laga-nm").textContent;
+  document.getElementById("kt-laga-info").textContent = document.getElementById("score-laga-info").textContent;
+  // timer color
+  var t = document.getElementById("kt-timer");
+  t.style.color = timeLeft <= 10 ? "#ff4444" : "#fff";
+  // sync log
+  var ktLog = document.getElementById("kt-log-box");
+  var ktRekap = document.getElementById("kt-rekap-box");
+  if (ktLog) {
+    if (!scoreLog.length) { ktLog.innerHTML = '<div style="color:#6b6b66;font-size:11px">Belum ada poin.</div>'; }
+    else {
+      ktLog.innerHTML = scoreLog.slice(0,15).map(function(l) {
+        var col = l.side === "blue" ? "#185FA5" : "#cc0000";
+        var ptsTxt = l.pts === 0 ? "Dicatat" : (l.pts > 0 ? "+" + l.pts : l.pts);
+        return '<div class="loge"><span class="logt">' + l.time + '</span><span style="color:' + col + ';font-weight:700;font-size:10px">' + (l.side==="blue"?"BIRU":"MERAH") + '</span><span style="flex:1">' + l.label + '</span><span style="font-size:10px;color:#6b6b66">' + l.by + '</span><span style="font-weight:700;color:' + (l.pts>0?"#3B6D11":l.pts<0?"#cc0000":"#6b6b66") + '">' + ptsTxt + '</span></div>';
+      }).join("");
+    }
+  }
+  if (ktRekap) {
+    if (!rekapBabak.length) { ktRekap.innerHTML = '<div style="color:#6b6b66;font-size:12px">Belum ada babak selesai.</div>'; }
+    else {
+      ktRekap.innerHTML = '<table style="width:100%;border-collapse:collapse;font-size:12px"><thead><tr style="background:#f7f6f2"><th style="padding:6px 8px;text-align:left;border-bottom:1px solid #e5e3db">Babak</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db;color:#185FA5">Biru</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db;color:#cc0000">Merah</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db">Hasil</th></tr></thead><tbody>' +
+        rekapBabak.map(function(r) {
+          var res = r.blueScore > r.redScore ? '<span style="color:#185FA5;font-weight:700">Biru</span>' : r.redScore > r.blueScore ? '<span style="color:#cc0000;font-weight:700">Merah</span>' : 'Seri';
+          return '<tr><td style="padding:6px 8px;border-bottom:1px solid #f0ede8">Babak ' + r.babak + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8;font-weight:700;color:#185FA5">' + r.blueScore + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8;font-weight:700;color:#cc0000">' + r.redScore + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8">' + res + '</td></tr>';
+        }).join("") + '</tbody></table>';
+    }
+  }
+  // Show/hide no-laga warning on ketua timer
+  var ktNoLaga = document.getElementById("kt-no-laga");
+  var ktLagaWrap = document.getElementById("kt-laga-wrap");
+  if (ktNoLaga && ktLagaWrap) {
+    if (currentLagaId) { ktNoLaga.style.display = "none"; ktLagaWrap.style.display = "block"; }
+    else { ktNoLaga.style.display = "block"; ktLagaWrap.style.display = "none"; }
+  }
+  // monitor laga
+  var ktMonitor = document.getElementById("kt-monitor-laga");
+  if (ktMonitor && currentLagaId) {
+    var at = getAT();
+    var l = at && at.laga.find(function(x){ return x.id === currentLagaId; });
+    if (l) {
+      ktMonitor.innerHTML = '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">' +
+        '<div style="background:#E6F1FB;border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;font-weight:700;color:#185FA5;margin-bottom:4px">SUDUT BIRU</div><div style="font-size:14px;font-weight:700">' + l.biru + '</div><div style="font-size:11px;color:#6b6b66">' + (l.biruKtg||"-") + '</div></div>' +
+        '<div style="background:#fff5f5;border-radius:8px;padding:12px;text-align:center"><div style="font-size:10px;font-weight:700;color:#cc0000;margin-bottom:4px">SUDUT MERAH</div><div style="font-size:14px;font-weight:700">' + l.merah + '</div><div style="font-size:11px;color:#6b6b66">' + (l.merahKtg||"-") + '</div></div>' +
+        '</div><div style="margin-top:8px;font-size:11px;color:#6b6b66;text-align:center">' + l.gel + ' &bull; ' + l.kat + ' &bull; Babak ' + currentRound + ' dari 3</div>';
+    }
+  }
+}
+
+function ketuaStart() {
+  if (!currentLagaId) { toast("Pilih laga dulu dari menu Laga!"); return; }
+  socket.emit('timer_start');
+  timerRunning = true;
+  document.getElementById("kt-start-btn").style.opacity = ".5";
+  document.getElementById("kt-tstat").textContent = "Berjalan";
+  document.getElementById("tstat").textContent = "Berjalan";
+  updateJuriLock();
+}
+function ketuaStop() {
+  socket.emit('timer_stop');
+  timerRunning = false;
+  document.getElementById("kt-start-btn").style.opacity = "1";
+  document.getElementById("kt-tstat").textContent = "Dijeda";
+  document.getElementById("tstat").textContent = "Dijeda";
+  updateJuriLock();
+}
+function ketuaReset() {
+  socket.emit('timer_reset');
+  timerRunning = false; timeLeft = 120;
+  document.getElementById("score-timer").textContent = "02:00";
+  document.getElementById("kt-timer").textContent = "02:00";
+  document.getElementById("kt-tstat").textContent = "Siap";
+  document.getElementById("tstat").textContent = "Siap";
+  document.getElementById("kt-start-btn").style.opacity = "1";
+  updateJuriLock();
+}
+function ketuaSetRound(n, btn) {
+  document.querySelectorAll("#kt-r1,#kt-r2,#kt-r3").forEach(function(b){ b.classList.remove("active"); });
+  btn.classList.add("active");
+  socket.emit('set_round', n);
+}
+
+// Sync ketua display every 300ms when on ketua pages
+setInterval(function() {
+  var kt = document.getElementById("sec-ketua-timer");
+  var km = document.getElementById("sec-ketua-monitor");
+  if ((kt && kt.classList.contains("active")) || (km && km.classList.contains("active"))) {
+    syncKetuaDisplay();
+  }
+}, 300);
+
+function updateJuriLock() {
+  var noLaga = document.getElementById("no-laga-msg");
+  var lockMsg = document.getElementById("juri-lock-msg");
+  var juriBtns = document.getElementById("juri-btns");
+  if (!lockMsg || !juriBtns) return;
+  if (!currentLagaId) {
+    if (noLaga) noLaga.style.display = "block";
+    lockMsg.style.display = "none";
+    juriBtns.style.display = "none";
+  } else if (timerRunning) {
+    if (noLaga) noLaga.style.display = "none";
+    lockMsg.style.display = "none";
+    juriBtns.style.display = "grid";
+  } else {
+    if (noLaga) noLaga.style.display = "none";
+    lockMsg.style.display = "block";
+    juriBtns.style.display = "none";
+  }
+}
+
+function shakeScoreTimer() {
+  var el = document.getElementById("score-timer");
+  el.classList.remove("shake");
+  void el.offsetWidth;
+  el.classList.add("shake");
+  setTimeout(function(){ el.classList.remove("shake"); }, 500);
+}
+
+function toggleTimer() {
+  if (timerRunning) {
+    clearInterval(timerInterval); timerRunning = false;
+    document.getElementById("timer-btn").innerHTML = '<i class="ti ti-player-play"></i> Mulai';
+    document.getElementById("tstat").textContent = "Dijeda";
+    updateJuriLock();
+  } else {
+    if (timeLeft <= 0) return;
+    timerRunning = true;
+    document.getElementById("timer-btn").innerHTML = '<i class="ti ti-player-pause"></i> Pause';
+    document.getElementById("tstat").textContent = "Berjalan";
+    updateJuriLock();
+    timerInterval = setInterval(function() {
+      timeLeft--;
+      var m = Math.floor(timeLeft/60); var s = timeLeft % 60;
+      document.getElementById("score-timer").textContent = String(m).padStart(2,"0") + ":" + String(s).padStart(2,"0");
+      document.getElementById("score-timer").style.color = timeLeft <= 10 ? "#cc0000" : "#1a1a18";
+      if (timeLeft === 10) soundTimerWarning();
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval); timerRunning = false;
+        document.getElementById("timer-btn").innerHTML = '<i class="ti ti-player-play"></i> Mulai';
+        document.getElementById("tstat").textContent = "Waktu Habis!";
+        soundTimerEnd();
+        toast("Waktu babak habis!");
+        akhirBabak();
+      }
+    }, 1000);
+  }
+}
+function resetTimer() {
+  clearInterval(timerInterval); timerRunning = false; timeLeft = 120;
+  document.getElementById("score-timer").textContent = "02:00";
+  document.getElementById("score-timer").style.color = "#1a1a18";
+  var tb = document.getElementById("timer-btn");
+  if (tb) tb.innerHTML = '<i class="ti ti-player-play"></i> Mulai';
+  document.getElementById("tstat").textContent = "Siap";
+}
+
+function akhirBabakModal() {
+  var bn = document.getElementById("sc-bnm").textContent;
+  var rn = document.getElementById("sc-rnm").textContent;
+  var lead = blueScore === redScore ? "Seri!" : (blueScore > redScore ? bn + " (Biru) unggul" : rn + " (Merah) unggul");
+  // Build rekap table for all rounds so far
+  var rekapHtml = "";
+  if (rekapBabak.length > 0) {
+    rekapHtml = '<div style="margin-top:14px"><div style="font-size:11px;font-weight:700;color:#6b6b66;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px">Rekap Semua Babak</div>' +
+      '<table style="width:100%;border-collapse:collapse;font-size:12px">' +
+      '<thead><tr style="background:#f7f6f2"><th style="padding:6px 8px;text-align:left;border-bottom:1px solid #e5e3db">Babak</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db;color:#185FA5">Biru</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db;color:#cc0000">Merah</th><th style="padding:6px 8px;text-align:center;border-bottom:1px solid #e5e3db">Hasil</th></tr></thead><tbody>' +
+      rekapBabak.map(function(r) {
+        var res = r.blueScore > r.redScore ? '<span style="color:#185FA5;font-weight:700">Biru Unggul</span>' : r.redScore > r.blueScore ? '<span style="color:#cc0000;font-weight:700">Merah Unggul</span>' : '<span style="color:#6b6b66">Seri</span>';
+        return '<tr><td style="padding:6px 8px;border-bottom:1px solid #f0ede8">Babak ' + r.babak + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8;font-weight:700;color:#185FA5">' + r.blueScore + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8;font-weight:700;color:#cc0000">' + r.redScore + '</td><td style="padding:6px 8px;text-align:center;border-bottom:1px solid #f0ede8">' + res + '</td></tr>';
+      }).join("") +
+      '</tbody></table></div>';
+  }
+  document.getElementById("modal-akhir-ct").innerHTML =
+    '<div style="display:flex;justify-content:space-around;margin-bottom:14px;text-align:center">' +
+    '<div><div style="font-size:11px;font-weight:700;color:#185FA5">BIRU</div><div style="font-size:13px;font-weight:600">' + bn + '</div><div style="font-size:36px;font-weight:800;color:#185FA5">' + blueScore + '</div><div style="font-size:11px;color:#6b6b66">P:' + blueHuk.p + ' W:' + blueHuk.w + ' T:' + blueHuk.t + '</div></div>' +
+    '<div style="display:flex;align-items:center;color:#6b6b66;font-size:18px;font-weight:700">VS</div>' +
+    '<div><div style="font-size:11px;font-weight:700;color:#cc0000">MERAH</div><div style="font-size:13px;font-weight:600">' + rn + '</div><div style="font-size:36px;font-weight:800;color:#cc0000">' + redScore + '</div><div style="font-size:11px;color:#6b6b66">P:' + redHuk.p + ' W:' + redHuk.w + ' T:' + redHuk.t + '</div></div>' +
+    '</div><div style="text-align:center;font-size:14px;padding:10px;background:#f7f6f2;border-radius:8px;margin-bottom:4px">' + lead + '</div>' + rekapHtml;
+  var at = getAT();
+  if (at && currentLagaId) {
+    var l = at.laga.find(function(x){ return x.id === currentLagaId; });
+    if (l) { l.status = "selesai"; l.skorBiru = blueScore; l.skorMerah = redScore; }
+  }
+  // Simpan rekap babak
+  rekapBabak.push({
+    babak: currentRound,
+    blueScore: blueScore, redScore: redScore,
+    blueHuk: {p:blueHuk.p, w:blueHuk.w, t:blueHuk.t},
+    redHuk: {p:redHuk.p, w:redHuk.w, t:redHuk.t},
+    log: scoreLog.slice(),
+    blueName: document.getElementById("sc-bnm").textContent,
+    redName: document.getElementById("sc-rnm").textContent,
+  });
+  renderDash(); openModal("modal-akhir");
+}
+function lanjutBabak() {
+  closeModal("modal-akhir");
+  var next = currentRound + 1;
+  if (next <= 3) { var btn = document.querySelectorAll(".rbtn")[next-1]; setRound(next, btn); }
+  else toast("Semua babak selesai!");
+}
+
+function exportPDF() {
+  var bn = document.getElementById("sc-bnm").textContent;
+  var rn = document.getElementById("sc-rnm").textContent;
+  var at = getAT();
+  var w = window.open("", "_blank");
+  var rows = scoreLog.map(function(l) {
+    return "<tr><td>" + l.time + "</td><td>" + (l.side === "blue" ? "Biru" : "Merah") + "</td><td>" + l.label + "</td><td>" + (l.by || "-") + "</td><td style='font-weight:700;color:" + (l.pts > 0 ? "#3B6D11" : l.pts < 0 ? "#cc0000" : "#666") + "'>" + (l.pts === 0 ? "Dicatat" : (l.pts > 0 ? "+" + l.pts : l.pts)) + "</td></tr>";
+  }).join("");
+  w.document.write("<!DOCTYPE html><html><head><title>Hasil Pertandingan</title><style>body{font-family:sans-serif;padding:28px;max-width:600px;margin:auto}.hdr{display:flex;align-items:center;gap:14px;margin-bottom:16px;border-bottom:2px solid #cc0000;padding-bottom:14px}.on{color:#cc0000;font-size:17px;font-weight:700}table{width:100%;border-collapse:collapse;font-size:12px;margin-top:10px}th{background:#f5f5f3;padding:7px;text-align:left;border-bottom:1px solid #eee}td{padding:7px;border-bottom:1px solid #eee}.sr{display:flex;justify-content:space-around;text-align:center;margin:14px 0;padding:14px;border:1px solid #eee;border-radius:8px}@media print{button{display:none}}</style></head><body>");
+  w.document.write('<div class="hdr"><img src="' + LOGO + '" style="width:60px;height:60px;object-fit:contain"><div><div class="on">Pencak Silat Cempaka Putih</div><div style="font-size:11px;color:#666">PENGDA Kalimantan Timur' + (at ? " - " + at.nama : "") + '</div></div></div>');
+  w.document.write('<table style="width:100%;border-collapse:collapse;font-size:12px;margin-bottom:10px"><tr><td style="padding:4px 0;color:#666;width:40%">Ketua Pertandingan</td><td style="padding:4px 0;font-weight:700">' + (role==="ketua"?currentUser:"-") + '</td><td style="padding:4px 0;color:#666;width:40%">Gelanggang</td><td style="padding:4px 0;font-weight:700">' + document.getElementById("score-laga-info").textContent + '</td></tr><tr><td style="padding:4px 0;color:#666">Dewan Pencatat</td><td style="padding:4px 0;font-weight:700">' + (role==="dewan"?currentUser:"-") + '</td><td style="padding:4px 0;color:#666">Babak</td><td style="padding:4px 0;font-weight:700">' + currentRound + ' dari 3</td></tr></table>');
+  w.document.write('<h2 style="font-size:15px;margin-bottom:4px">Hasil Pertandingan - Babak ' + currentRound + '</h2><p style="font-size:12px;color:#666;margin-bottom:10px">' + new Date().toLocaleDateString("id-ID", {weekday:"long",year:"numeric",month:"long",day:"numeric"}) + '</p>');
+  w.document.write('<div class="sr"><div><div style="font-size:11px;font-weight:700;color:#185FA5">SUDUT BIRU</div><div>' + bn + '</div><div style="font-size:42px;font-weight:900;color:#185FA5">' + blueScore + '</div><div style="font-size:11px;color:#999">P:' + blueHuk.p + ' W:' + blueHuk.w + ' T:' + blueHuk.t + '</div></div><div style="display:flex;align-items:center;color:#ccc;font-size:20px;font-weight:700">VS</div><div><div style="font-size:11px;font-weight:700;color:#cc0000">SUDUT MERAH</div><div>' + rn + '</div><div style="font-size:42px;font-weight:900;color:#cc0000">' + redScore + '</div><div style="font-size:11px;color:#999">P:' + redHuk.p + ' W:' + redHuk.w + ' T:' + redHuk.t + '</div></div></div>');
+  w.document.write('<h3 style="font-size:13px;margin:12px 0 7px">Log Poin</h3><table><thead><tr><th>Waktu</th><th>Sudut</th><th>Aksi</th><th>Oleh</th><th>Poin</th></tr></thead><tbody>' + rows + '</tbody></table>');
+  w.document.write('<div style="margin-top:20px;font-size:10px;color:#aaa;border-top:1px solid #eee;padding-top:10px">Pencak Silat Cempaka Putih - PENGDA Kaltim - SilatPro - ' + new Date().toLocaleString("id-ID") + '</div><br><button onclick="window.print()" style="padding:10px 22px;background:#cc0000;color:#fff;border:none;border-radius:6px;cursor:pointer">Cetak / Simpan PDF</button></body></html>');
+  w.document.close();
+}
+
+function bukaScoreboard() {
+  var bn = document.getElementById("sc-bnm").textContent;
+  var rn = document.getElementById("sc-rnm").textContent;
+  var bktg = document.getElementById("sc-bktg").textContent;
+  var rktg = document.getElementById("sc-rktg").textContent;
+  var lagnm = document.getElementById("score-laga-nm").textContent;
+  var laginfo = document.getElementById("score-laga-info").textContent;
+  var w = window.open("", "_blank", "width=1024,height=600");
+  w.document.write('<!DOCTYPE html><html><head><title>Scoreboard - ' + lagnm + '</title>');
+  w.document.write('<style>*{box-sizing:border-box;margin:0;padding:0}body{background:#1a0000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,Segoe UI,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden}.header{background:linear-gradient(135deg,#cc0000,#8b0000);padding:14px 24px;display:flex;align-items:center;justify-content:space-between}.header-logo{display:flex;align-items:center;gap:12px}.header-title{font-size:16px;font-weight:700;color:#fff}.header-sub{font-size:12px;color:rgba(255,255,255,.7);margin-top:2px}.header-info{text-align:right;font-size:13px;color:rgba(255,255,255,.8)}.main{flex:1;display:grid;grid-template-columns:1fr auto 1fr;gap:0;padding:20px 16px;align-items:center}.side{text-align:center;padding:20px}.side-color{font-size:13px;font-weight:800;letter-spacing:.15em;margin-bottom:10px;opacity:.8}.side-name{font-size:32px;font-weight:800;margin-bottom:4px;line-height:1.1}.side-ktg{font-size:16px;opacity:.6;margin-bottom:20px}.side-score{font-size:120px;font-weight:900;line-height:1;margin-bottom:16px;text-shadow:0 0 40px currentColor}.side-huk{font-size:14px;opacity:.6;background:rgba(255,255,255,.08);border-radius:8px;padding:6px 16px;display:inline-block}.blue-side{color:#4fc3f7}.red-side{color:#ff6b6b}.center{display:flex;flex-direction:column;align-items:center;gap:16px;padding:0 24px}.vs-txt{font-size:28px;font-weight:800;color:rgba(255,255,255,.3)}.timer-big{font-size:64px;font-weight:900;font-variant-numeric:tabular-nums;color:#fff;text-shadow:0 0 30px rgba(255,255,255,.3)}.timer-lbl{font-size:13px;color:rgba(255,255,255,.5);text-align:center}.babak-info{font-size:14px;color:rgba(255,255,255,.5);text-align:center}.divider{width:2px;height:200px;background:linear-gradient(180deg,transparent,rgba(255,255,255,.2),transparent)}.footer{background:rgba(0,0,0,.4);padding:10px 24px;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:rgba(255,255,255,.4)}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}.timer-warn{animation:pulse .8s infinite;color:#ff4444!important}</style></head><body>');
+  w.document.write('<div class="header"><div class="header-logo"><img src="' + LOGO + '" style="width:44px;height:44px;object-fit:contain;border-radius:50%;background:rgba(255,255,255,.15);padding:3px"><div><div class="header-title">Pencak Silat Cempaka Putih</div><div class="header-sub">PENGDA Kalimantan Timur &bull; ' + laginfo + '</div></div></div><div class="header-info"><div>' + lagnm + '</div></div></div>');
+  w.document.write('<div class="main"><div class="side"><div class="side-color blue-side">&#9679; SUDUT BIRU</div><div class="side-name blue-side" id="sb-bn">' + bn + '</div><div class="side-ktg">' + bktg + '</div><div class="side-score blue-side" id="sb-bs">0</div><div class="side-huk" id="sb-bh">P:0 W:0 T:0</div></div>');
+  w.document.write('<div class="center"><div class="divider"></div><div class="vs-txt">VS</div><div class="timer-big" id="sb-timer">02:00</div><div class="timer-lbl" id="sb-tstat">Siap</div><div class="babak-info" id="sb-babak">Babak 1 dari 3</div><div class="divider"></div></div>');
+  w.document.write('<div class="side"><div class="side-color red-side">&#9679; SUDUT MERAH</div><div class="side-name red-side" id="sb-rn">' + rn + '</div><div class="side-ktg">' + rktg + '</div><div class="side-score red-side" id="sb-rs">0</div><div class="side-huk" id="sb-rh">P:0 W:0 T:0</div></div></div>');
+  w.document.write('<div class="footer"><span>SilatPro &bull; Pencak Silat Cempaka Putih PENGDA Kaltim</span><span id="sb-clock"></span></div>');
+  // Sync script
+  w.document.write('<script>var opener=window.opener;function sync(){if(!opener||opener.closed){document.title="[TERPUTUS] Scoreboard";return;}try{var bs=opener.document.getElementById("sc-b").textContent;var rs=opener.document.getElementById("sc-r").textContent;var tm=opener.document.getElementById("score-timer").textContent;var ts=opener.document.getElementById("tstat").textContent;var bh=opener.document.getElementById("sc-bhuk").textContent;var rh=opener.document.getElementById("sc-rhuk").textContent;document.getElementById("sb-bs").textContent=bs;document.getElementById("sb-rs").textContent=rs;document.getElementById("sb-timer").textContent=tm;document.getElementById("sb-tstat").textContent=ts;document.getElementById("sb-bh").textContent=bh;document.getElementById("sb-rh").textContent=rh;var warn=parseInt(tm.split(":")[0])*60+parseInt(tm.split(":")[1])<=10;document.getElementById("sb-timer").className="timer-big"+(warn?" timer-warn":"");}catch(e){}document.getElementById("sb-clock").textContent=new Date().toLocaleTimeString("id-ID");}setInterval(sync,500);sync();<\/script>');
+  w.document.write('</body></html>');
+  w.document.close();
+  toast("Scoreboard dibuka di tab baru!");
+}
+
+function cetakKartu() {
+  var at = getAT();
+  if (!at || !at.peserta.length) { toast("Belum ada peserta!"); return; }
+  var w = window.open("", "_blank");
+  var kartuHtml = at.peserta.map(function(p) {
+    return '<div style="width:85mm;height:54mm;border:2px solid #cc0000;border-radius:8px;padding:10px 12px;display:inline-flex;flex-direction:column;justify-content:space-between;margin:4px;background:#fff;break-inside:avoid">' +
+      '<div style="display:flex;align-items:center;gap:8px;border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:6px">' +
+      '<img src="' + LOGO + '" style="width:32px;height:32px;object-fit:contain">' +
+      '<div><div style="font-size:9px;font-weight:700;color:#cc0000">PENCAK SILAT CEMPAKA PUTIH</div>' +
+      '<div style="font-size:8px;color:#666">PENGDA Kalimantan Timur</div>' +
+      '<div style="font-size:8px;color:#666">' + (at.nama || "") + '</div></div></div>' +
+      '<div style="flex:1">' +
+      '<div style="font-size:14px;font-weight:800;color:#1a1a18;margin-bottom:3px">' + p.nama + '</div>' +
+      '<div style="font-size:11px;color:#666;margin-bottom:2px">' + p.daerah + ' &bull; ' + p.kat + '</div>' +
+      '<div style="font-size:11px;color:#666">Kelas ' + p.kelas + ' &bull; Status: ' + p.status + '</div>' +
+      '</div>' +
+      '<div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #eee;padding-top:6px;margin-top:4px">' +
+      '<div style="font-size:9px;color:#999">' + new Date().toLocaleDateString("id-ID") + '</div>' +
+      '<div style="background:#cc0000;color:#fff;font-size:18px;font-weight:900;padding:4px 14px;border-radius:6px">No. ' + p.undian + '</div>' +
+      '</div></div>';
+  }).join("");
+  w.document.write('<!DOCTYPE html><html><head><title>Kartu Peserta</title><style>body{font-family:sans-serif;padding:16px;background:#f5f5f5}h2{font-size:15px;color:#cc0000;margin-bottom:12px}.kartu-wrap{display:flex;flex-wrap:wrap}@media print{body{background:#fff;padding:0}h2,button{display:none}.kartu-wrap{gap:2mm}}</style></head><body>');
+  w.document.write('<h2>Kartu Peserta - ' + at.nama + '</h2>');
+  w.document.write('<div class="kartu-wrap">' + kartuHtml + '</div>');
+  w.document.write('<br><button onclick="window.print()" style="padding:10px 22px;background:#cc0000;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:14px;margin-top:10px">Cetak Kartu Peserta</button>');
+  w.document.write('</body></html>');
+  w.document.close();
+}
+
+// ===== GANTI PERAN =====
+var gantiPeranTarget = "admin";
+
+function gantiPeran() {
+  gantiPeranTarget = role;
+  document.querySelectorAll("#modal-ganti-peran .role-btn").forEach(function(b){ b.classList.remove("sel"); });
+  var cur = document.querySelector("#modal-ganti-peran .role-btn[onclick*='" + role + "']");
+  if (cur) cur.classList.add("sel");
+  document.getElementById("gp-nama").value = currentUser;
+  document.getElementById("gp-pass").value = "";
+  document.getElementById("gp-err").style.display = "none";
+  openModal("modal-ganti-peran");
+  setTimeout(function(){ document.getElementById("gp-pass").focus(); }, 200);
+}
+
+function pilihPeranBaru(el, r) {
+  document.querySelectorAll("#modal-ganti-peran .role-btn").forEach(function(b){ b.classList.remove("sel"); });
+  el.classList.add("sel");
+  gantiPeranTarget = r;
+  document.getElementById("gp-err").style.display = "none";
+  document.getElementById("gp-pass").value = "";
+  document.getElementById("gp-pass").focus();
+}
+
+function konfirmasiGantiPeran() {
+  var nama = document.getElementById("gp-nama").value.trim();
+  var pass = document.getElementById("gp-pass").value;
+  var err = document.getElementById("gp-err");
+  if (!nama) { err.textContent = "Nama pengguna wajib diisi!"; err.style.display = "block"; return; }
+  if (pass !== PASSWORDS[gantiPeranTarget]) {
+    err.textContent = "Kata sandi salah! " + PASS_HINTS[gantiPeranTarget];
+    err.style.display = "block";
+    document.getElementById("gp-pass").value = "";
+    document.getElementById("gp-pass").focus();
+    return;
+  }
+  // Switch role
+  role = gantiPeranTarget;
+  currentUser = nama;
+  closeModal("modal-ganti-peran");
+  // Update topbar
+  document.getElementById("role-badge").textContent = ROLE_LBL[role];
+  document.getElementById("topbar-role").textContent = nama + " (" + ROLE_LBL[role] + ")";
+  var tb = document.getElementById("topbar");
+  tb.className = "topbar " + TOP_CLS[role];
+  // Rebuild nav
+  buildNav();
+  // Go to first page of new role
+  var firstPage = NAV[role][0].id;
+  showSec(firstPage);
+  // If ketua/juri/dewan and there's an active laga, auto-select it
+  if (role !== "admin" && currentLagaId) {
+    var at = getAT();
+    var l = at && at.laga.find(function(x){ return x.id === currentLagaId; });
+    if (l) {
+      document.getElementById("sc-bnm").textContent = l.biru;
+      document.getElementById("sc-bktg").textContent = l.biruKtg || "-";
+      document.getElementById("sc-rnm").textContent = l.merah;
+      document.getElementById("sc-rktg").textContent = l.merahKtg || "-";
+      if (document.getElementById("j-bnm")) document.getElementById("j-bnm").textContent = l.biru;
+      if (document.getElementById("j-rnm")) document.getElementById("j-rnm").textContent = l.merah;
+      syncKetuaDisplay();
+      toast("Laga aktif: " + l.biru + " vs " + l.merah);
+    }
+  }
+  toast("Berhasil masuk sebagai " + ROLE_LBL[role] + " - " + nama);
+}
+
+function openModal(id) { document.getElementById(id).classList.add("open"); }
+function closeModal(id) { document.getElementById(id).classList.remove("open"); }
+function toast(msg) {
+  var t = document.getElementById("toast");
+  t.textContent = msg; t.classList.add("show");
+  setTimeout(function(){ t.classList.remove("show"); }, 2800);
+}
+
+</script>
+</body>
+</html>
